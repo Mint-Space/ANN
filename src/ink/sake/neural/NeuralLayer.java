@@ -4,6 +4,9 @@ import ink.sake.activation.ActivationFunction;
 import ink.sake.activation.ActivationType;
 import ink.sake.matrix.Matrix;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NeuralLayer {
 
     Matrix matrix;
@@ -18,29 +21,46 @@ public class NeuralLayer {
     private double[][] newWeight;
     private double[] activate;
 
-    public NeuralLayer(int neuralNumber,ActivationType activationType){
+    private List<NeuralLayer> layerList;
+
+    public NeuralLayer() {
+        layerList = new ArrayList<NeuralLayer>();
+    }
+
+    public NeuralLayer(int neuralNumber, ActivationType activationType) {
         this.neuralNumber = neuralNumber;
-        this.activationType =activationType;
+        this.activationType = activationType;
         activationFunction = new ActivationFunction(activationType);
         matrix = new Matrix();
     }
 
-    public NeuralLayer(int neuralNumber,double[] x,ActivationType activationType){
+    public NeuralLayer(int neuralNumber, double[] x, ActivationType activationType) {
         this.x = x;
         this.neuralNumber = neuralNumber;
         this.activationType = activationType;
         matrix = new Matrix();
     }
 
-    public void init(){
+    public void init() {
         this.weight = this.firstRandomWeight(newWeight);
         this.bias = this.firstRandomBias(newBias);
     }
 
-    public boolean input(double[] X){
-        if(X == null){
+    public NeuralLayer createNeuralLayer(int neuralNumber, ActivationType activationType) {
+        NeuralLayer neuralLayer = new NeuralLayer(neuralNumber, activationType);
+        layerList.add(neuralLayer);
+        return this;
+    }
+
+    public NeuralLayer addLayerList() {
+        layerList.add(this);
+        return this;
+    }
+
+    public boolean input(double[] X) {
+        if (X == null) {
             return false;
-        }else {
+        } else {
             this.x = X;
             return true;
         }
@@ -180,5 +200,13 @@ public class NeuralLayer {
 
     public void setActivationFunction(ActivationFunction activationFunction) {
         this.activationFunction = activationFunction;
+    }
+
+    public List<NeuralLayer> getLayerList() {
+        return layerList;
+    }
+
+    public void setLayerList(List<NeuralLayer> layerList) {
+        this.layerList = layerList;
     }
 }

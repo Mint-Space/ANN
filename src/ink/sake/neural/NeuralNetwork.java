@@ -20,14 +20,17 @@ public class NeuralNetwork {
     List<Parameter> layerParameterList;
 
     double[] X;
+    double[][] xMatrix;
     double[] layerX;
-    double[] lossValue;
+    double[] lossValueVector;
     double[] derivationLossValue;
     double[][] error;
+    double lossValue;
     LossFunction lossFunction;
     LossType lossType;
 
     double[] Y;
+    double[] yVector;
     double[] derivationActivate;
     double[][] derivationWeight;
     double[] derivationBias;
@@ -48,19 +51,20 @@ public class NeuralNetwork {
         layerActivationFunction = new ActivationFunction();
     }
 
-    public void init(){
-        for(int i = 0;i < layerList.size();i++){
+    public NeuralNetwork init() {
+        for (int i = 0; i < layerList.size(); i++) {
             neuralLayer = layerList.get(i);
-            if(i == 0) {
+            if (i == 0) {
                 neuralLayer.setX(X);
-            }else if(i > 0){
+            } else if (i > 0) {
                 layerX = layerList.get(i - 1).getActivate();
                 neuralLayer.setX(layerX);
             }
-                neuralLayer.init();
-                neuralLayer.forwardPropagation();
+            neuralLayer.init();
+            neuralLayer.forwardPropagation();
                 addParameterList(i);
         }
+        return this;
     }
 
     /**
@@ -100,30 +104,48 @@ public class NeuralNetwork {
         layerList.add(neuralLayer);
     }
 
-    public double[] lossValue(double[] Y,LossType lossType){
+    public double[] lossValueVector() {
+        Parameter output = layerParameterList.get(layerParameterList.size() - 1);
+        output.getParameter();
+        lossFunction = new LossFunction(lossType);
+        lossValueVector = lossFunction.lossValueVector(output.getActivate(), Y);
+        return lossValueVector;
+    }
+
+    public NeuralNetwork lossValue() {
+        Parameter output = layerParameterList.get(layerParameterList.size() - 1);
+        output.getParameter();
+        lossFunction = new LossFunction(lossType);
+        lossValue = lossFunction.lossValue(output.getActivate(), Y);
+        return this;
+    }
+
+    public NeuralNetwork lossValue(LossType lossType) {
+        Parameter output = layerParameterList.get(layerParameterList.size() - 1);
+        output.getParameter();
+        lossFunction = new LossFunction(lossType);
+        lossValue = lossFunction.lossValue(output.getActivate(), Y);
+        return this;
+    }
+
+    public NeuralNetwork lossValue(double[] Y, LossType lossType) {
         this.Y = Y;
         this.lossType = lossType;
-        Parameter output = layerParameterList.get(layerParameterList.size()-1);
+        Parameter output = layerParameterList.get(layerParameterList.size() - 1);
         output.getParameter();
         lossFunction = new LossFunction(lossType);
-        return lossValue = lossFunction.lossValue(Y,output.getActivate());
+        lossValue = lossFunction.lossValue(output.getActivate(), Y);
+        return this;
     }
 
-    public double lossTotal(double[] loss){
-        double result = 0.0;
-        for (int i = 0 ;i<loss.length;i++){
-//            System.out.print(loss[i]+"  ");
-            result = loss[i] + result;
-        }
-//        System.out.println();
-        return result;
-    }
-
-    public double[] derivationLossValue(){
-        Parameter output = layerParameterList.get(layerParameterList.size()-1);
+    public double[] derivationLossValue() {
+        Parameter output = layerParameterList.get(layerParameterList.size() - 1);
         output.getParameter();
         lossFunction = new LossFunction(lossType);
-        return derivationLossValue = lossFunction.derivationLossValue(Y,output.getActivate());
+        System.out.print(" OUT:");
+        matrix.printVector(output.getActivate());
+        derivationLossValue = lossFunction.derivationLossValue(output.getActivate(), Y);
+        return derivationLossValue;
     }
 
     private double[] derivationActivationValue(int layerIndex){
@@ -205,16 +227,15 @@ public class NeuralNetwork {
         double[][] inputMatrix;
         double[][] prevActivateMatrix;
         double[] derivationSigmoid;
-        double[] prevDerivationSigmoid;
         Parameter parameter = layerParameterList.get(layerIndex);
         Parameter nextParameter;
-        if(layerIndex == layerParameterList.size() - 1){
+        if(layerIndex == layerParameterList.size() - 1) {
             derivationLossValue = derivationLossValue();
             prevActivate = parameter.getX();
             prevActivateMatrix = matrix.vectorToColumnMatrix(prevActivate);
-            prevDerivationSigmoid = derivationActivationValue(layerParameterList.size() - 1);
-            this.deltaWeight = delta(derivationLossValue,prevDerivationSigmoid);
-            return matrix.multi(deltaWeight,matrix.transpose(prevActivateMatrix));
+            derivationSigmoid = derivationActivationValue(layerParameterList.size() - 1);
+            this.deltaWeight = delta(derivationLossValue, derivationSigmoid);
+            return matrix.multi(deltaWeight, matrix.transpose(prevActivateMatrix));
         }else if(layerIndex > 0 & layerIndex < layerParameterList.size() - 1) {
             nextParameter = layerParameterList.get(layerIndex + 1);
             nextWeight = nextParameter.getWeight();
@@ -235,7 +256,7 @@ public class NeuralNetwork {
     }
 
     private double[][] delta(double[] delta,double[] derivationSigmoid){
-        return matrix.vectorToColumnMatrix(matrix.elementProduct(derivationSigmoid,delta));
+        return matrix.vectorToColumnMatrix(matrix.elementProduct(delta, derivationSigmoid));
     }
 
     private double[][] delta(double[][] weight,double[][] delta,double[] derivationSigmoid){
@@ -302,28 +323,30 @@ public class NeuralNetwork {
         return matrix.elementProduct(resultVector,derivationSigmoid);
     }
 
-    public void backpropagation(){
-        for(int i = layerParameterList.size() - 1 ;i >= 0;i--){
+    public NeuralNetwork backpropagation() {
+        for (int i = layerParameterList.size() - 1; i >= 0; i--) {
             parameter = layerParameterList.get(i);
             this.derivationWeight = derivationWeightValue(i);
             this.derivationBias = derivationBiasValue(i);
             parameter.setDimensionWeight(derivationWeight);
             parameter.setDimensionBias(derivationBias);
         }
+        return this;
     }
 
-    public void setLearningRate(double learningRate){
+    public NeuralNetwork setLearningRate(double learningRate) {
         this.learningRate = learningRate;
+        return this;
     }
 
-    public void update(){
+    public NeuralNetwork update() {
         double[][] weight;
         double[][] newWeight;
         double[] bias;
         double[] newBias;
         double[][] tempWeight;
         double[] tempbias;
-        for(int i = layerParameterList.size()-1; i >= 0;i--){
+        for (int i = layerParameterList.size() - 1; i >= 0; i--) {
             parameter = layerParameterList.get(i);
             neuralLayer = layerList.get(i);
             weight = neuralLayer.getWeight();
@@ -342,25 +365,90 @@ public class NeuralNetwork {
 //            System.out.println("update ew weight: "+newWeight[0][0]);
 
         }
+        return this;
     }
 
-    public void input(double[] X){
+    public NeuralNetwork input(double[] X, double[] Y) {
         this.X = X;
+        this.Y = Y;
+        return this;
     }
 
-    public void output(int i,double Y){
+    public NeuralNetwork setDataSet(double[][] X, double[] Y) {
+        this.xMatrix = X;
+        this.yVector = Y;
+        return this;
+    }
+
+    public NeuralNetwork setLossType(LossType lossType) {
+        this.lossType = lossType;
+        return this;
+    }
+
+    public NeuralNetwork run() {
+        for (int i = 0; i < xMatrix.length; i++) {
+            this.input(xMatrix[i], setY((int) yVector[i]))
+                    .init()
+                    .lossValue()
+                    .backpropagation()
+                    .update()
+                    .output(i);
+        }
+        return this;
+    }
+
+    public void output(int labelsIndex, LossType lossType) {
+        this.Y = setY((int) yVector[labelsIndex]);
+        this.lossType = lossType;
+    }
+
+    public void output(int i) {
         double[] result;
         int maxIndex;
-        neuralLayer = layerList.get(layerList.size()-1);
-        result = neuralLayer.getActivate();
+        parameter = layerParameterList.get(layerList.size() - 1);
+        result = parameter.getActivate();
         maxIndex = matrix.maxVectorIndex(result);
 
-        if(maxIndex == Y){
+        if (maxIndex == yVector[i]) {
             correct++;
             correctRate = correct / (i + 1);
-        }else {
+        } else {
             mistake = i - correct;
         }
-        System.out.println("第 "+i+" 个 "+"OUTPUT:  "+ maxIndex+"  "+" 期望："+Y +" | 正确数： "+correct+" | 错误数： "+mistake+" | losstotal: "+lossTotal(lossValue)+" | 正确率： "+ correctRate);
+        System.out.println("第 " + i + " 个 " + "OUTPUT:  " + maxIndex + "  " + " 期望：" + Y + " | 正确数： " + correct + " | 错误数： " + mistake + " | losstotal: " + lossValue + " | 正确率： " + correctRate);
+    }
+
+    public void output(int i, double Y) {
+        double[] result;
+        int maxIndex;
+        parameter = layerParameterList.get(layerList.size() - 1);
+        result = parameter.getActivate();
+        maxIndex = matrix.maxVectorIndex(result);
+
+        if (maxIndex == Y) {
+            correct++;
+            correctRate = correct / (i + 1);
+        } else {
+            mistake = i - correct;
+        }
+        System.out.println("第 " + i + " 个 " + "OUTPUT:  " + maxIndex + "  " + " 期望：" + Y + " | 正确数： " + correct + " | 错误数： " + mistake + " | losstotal: " + lossValue + " | 正确率： " + correctRate);
+    }
+
+    public double[] setY(int number) {
+        double[] result = new double[10];
+        result[number] = 1.0;
+        return result;
+    }
+
+    public double[][] getY(double[] Y) {
+        double[][] result = new double[Y.length][10];
+        for (int i = 0; i < Y.length; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (Y[i] == j) {
+                    result[i][j] = 1;
+                }
+            }
+        }
+        return result;
     }
 }

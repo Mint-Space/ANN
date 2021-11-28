@@ -1,10 +1,14 @@
 package ink.sake.matrix;
 
+import java.math.BigDecimal;
+
 public class Matrix {
     private int row;
     private int column;
     private double[] vector;
     private double[][] matrix;
+
+    private BigDecimal bigDecimal;
 
     public Matrix() {
 
@@ -112,11 +116,30 @@ public class Matrix {
         return maxIndex;
     }
 
+    public double[] not(double[] A) {
+        int ar = A.length;
+        double[] result = new double[ar];
+        for (int i = 0; i < ar; i++) {
+            bigDecimal = new BigDecimal(Double.toString(A[i]));
+            result[i] = bigDecimal.negate().doubleValue();
+        }
+        return result;
+    }
+
     public double[] abs(double[] A) {
         int ar = A.length;
         double[] result = new double[ar];
-        for(int i = 0;i < ar;i++) {
+        for (int i = 0; i < ar; i++) {
             result[i] = Math.abs(A[i]);
+        }
+        return result;
+    }
+
+    public double vectorSum(double[] A) {
+        double result = 0.0;
+        int ar = A.length;
+        for (int i = 0; i < ar; i++) {
+            result += A[i];
         }
         return result;
     }
@@ -124,7 +147,7 @@ public class Matrix {
     public double[] ln(double[] A) {
         int ar = A.length;
         double[] result = new double[ar];
-        for(int i = 0;i < ar;i++) {
+        for (int i = 0; i < ar; i++) {
             result[i] = Math.log(A[i]);
         }
         return result;
@@ -258,13 +281,34 @@ public class Matrix {
         return matrix = result;
     }
 
-    public double[] multi(double[] A,double number) {
+    public double[] pow(double[] A, double number) {
         int ar = A.length;
         double[] result = new double[ar];
-        for(int i = 0;i < ar;i++) {
-            result[i] = A[i]* number;
+        for (int i = 0; i < ar; i++) {
+            result[i] = Math.pow(A[i], number);
         }
         return vector = result;
+    }
+
+    public double[] multi(double[] A, double number) {
+        int ar = A.length;
+        double[] result = new double[ar];
+        for (int i = 0; i < ar; i++) {
+            result[i] = A[i] * number;
+        }
+        return vector = result;
+    }
+
+    public double[][] pow(double[][] A, double number) {
+        int ar = A.length;
+        int ac = A[0].length;
+        double[][] result = new double[ar][ac];
+        for (int i = 0; i < ar; i++) {
+            for (int j = 0; j < ac; j++) {
+                result[i][j] = Math.pow(A[i][j], number);
+            }
+        }
+        return matrix = result;
     }
 
     public double[][] multi(double[][] A, double number) {
@@ -373,7 +417,26 @@ public class Matrix {
         }
     }
 
+    public void printVector(double[] vector) {
+        int vr = vector.length;
+        for (int i = 0; i < vr; i++) {
+            System.out.print(vector[i] + "  ");
+        }
+        System.out.println();
+    }
+
     public void printMatrix() {
+        int mr = matrix.length;
+        int mc = matrix[0].length;
+        for (int i = 0; i < mr; i++) {
+            for (int j = 0; j < mc; j++) {
+                System.out.print(matrix[i][j] + "  ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void printMatrix(double[][] matrix) {
         int mr = matrix.length;
         int mc = matrix[0].length;
         for (int i = 0; i < mr; i++) {
