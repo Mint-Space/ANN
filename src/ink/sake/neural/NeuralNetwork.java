@@ -415,7 +415,7 @@ public class NeuralNetwork {
         } else {
             mistake = i - correct;
         }
-        System.out.println("第 " + i + " 个 " + "OUTPUT:  " + maxIndex + "  " + " 期望：" + Y + " | 正确数： " + correct + " | 错误数： " + mistake + " | losstotal: " + lossValue + " | 正确率： " + correctRate);
+        System.out.println("第 " + i + " 个 " + "OUTPUT:  " + maxIndex + "  " + " 期望：" + yVector[i] + " | 正确数： " + correct + " | 错误数： " + mistake + " | losstotal: " + lossValue + " | 正确率： " + correctRate);
     }
 
     public void output(int i, double Y) {
@@ -431,7 +431,7 @@ public class NeuralNetwork {
         } else {
             mistake = i - correct;
         }
-        System.out.println("第 " + i + " 个 " + "OUTPUT:  " + maxIndex + "  " + " 期望：" + Y + " | 正确数： " + correct + " | 错误数： " + mistake + " | losstotal: " + lossValue + " | 正确率： " + correctRate);
+        System.out.println("第 " + i + " 个 " + "OUTPUT:  " + maxIndex + "  " + " 期望：" + yVector[i] + " | 正确数： " + correct + " | 错误数： " + mistake + " | losstotal: " + lossValue + " | 正确率： " + correctRate);
     }
 
     public double[] setY(int number) {
