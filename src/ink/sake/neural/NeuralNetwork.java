@@ -142,8 +142,8 @@ public class NeuralNetwork {
         Parameter output = layerParameterList.get(layerParameterList.size() - 1);
         output.getParameter();
         lossFunction = new LossFunction(lossType);
-        System.out.print(" OUT:");
-        matrix.printVector(output.getActivate());
+//        System.out.print(" OUT:");
+//        matrix.printVector(output.getActivate());
         derivationLossValue = lossFunction.derivationLossValue(output.getActivate(), Y);
         return derivationLossValue;
     }
@@ -227,6 +227,7 @@ public class NeuralNetwork {
         double[][] inputMatrix;
         double[][] prevActivateMatrix;
         double[] derivationSigmoid;
+        double[] deltaLossVector;
         Parameter parameter = layerParameterList.get(layerIndex);
         Parameter nextParameter;
         if(layerIndex == layerParameterList.size() - 1) {
@@ -234,6 +235,8 @@ public class NeuralNetwork {
             prevActivate = parameter.getX();
             prevActivateMatrix = matrix.vectorToColumnMatrix(prevActivate);
             derivationSigmoid = derivationActivationValue(layerParameterList.size() - 1);
+            deltaLossVector = matrix.multi(derivationLossValue, learningRate);
+            derivationLossValue = matrix.sub(derivationLossValue, deltaLossVector);
             this.deltaWeight = delta(derivationLossValue, derivationSigmoid);
             return matrix.multi(deltaWeight, matrix.transpose(prevActivateMatrix));
         }else if(layerIndex > 0 & layerIndex < layerParameterList.size() - 1) {
@@ -305,8 +308,11 @@ public class NeuralNetwork {
         double[] result;
         double[][] weight;
         double[] derivationSigmoid;
+        double[] deltaLossVector;
         Parameter nextBias;
-        if(layerParameterList.size() - 1 == layerIndex){
+        if(layerParameterList.size() - 1 == layerIndex) {
+            deltaLossVector = matrix.multi(derivationLossValue, learningRate);
+            derivationLossValue = matrix.sub(derivationLossValue, deltaLossVector);
             return this.deltaBias = derivationLossValue;
         }else{
             nextBias = layerParameterList.get(layerIndex + 1);

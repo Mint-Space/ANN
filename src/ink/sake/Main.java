@@ -17,7 +17,6 @@ public class Main {
         NeuralLayer neuralLayer = new NeuralLayer()
                 .createNeuralLayer(784, ActivationType.Sigmoid)
                 .createNeuralLayer(800, ActivationType.Sigmoid)
-                .createNeuralLayer(650, ActivationType.Sigmoid)
                 .createNeuralLayer(10, ActivationType.Sigmoid);
 
         NeuralNetwork neuralNetwork = new NeuralNetwork(neuralLayer.getLayerList());

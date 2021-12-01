@@ -37,13 +37,33 @@ public class Matrix {
         double[][] result = new double[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                result[i][j] = Math.random()-0.5;
+                result[i][j] = Math.random() - 0.5;
             }
         }
         return matrix = result;
     }
 
-    public double[][] transpose(double[][] A){
+    public double[] zero(int row) {
+        double[] result = new double[row];
+//        for (int i = 0; i < row; i++) {
+//            for (int j = 0; j < column; j++) {
+//                result[i][j] = 0.0;
+//            }
+//        }
+        return vector = result;
+    }
+
+    public double[][] zero(int row, int column) {
+        double[][] result = new double[row][column];
+//        for (int i = 0; i < row; i++) {
+//            for (int j = 0; j < column; j++) {
+//                result[i][j] = 0.0;
+//            }
+//        }
+        return matrix = result;
+    }
+
+    public double[][] transpose(double[][] A) {
         int ar = A.length;
         int ac = A[0].length;
         double[][] result = new double[ac][ar];
