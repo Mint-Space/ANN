@@ -21,7 +21,7 @@ public class Main {
 
         NeuralNetwork neuralNetwork = new NeuralNetwork(neuralLayer.getLayerList());
         neuralNetwork.setDataSet(X, Y)
-                .setLearningRate(0.085)
+                .setLearningRate(0.082)
                 .setLossType(LossType.LeastSquaresMethod)
                 .setDesireTheCorrectRate(0.72)
                 .train();

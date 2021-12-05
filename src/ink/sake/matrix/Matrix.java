@@ -28,7 +28,7 @@ public class Matrix {
     public double[] random(int row) {
         double[] result = new double[row];
         for (int i = 0; i < row; i++) {
-            result[i] = Math.random()-0.5;
+            result[i] = Math.random() - 0.5;
         }
         return vector = result;
     }
@@ -120,7 +120,7 @@ public class Matrix {
         return vector = result;
     }
 
-    public int maxVectorIndex(double[] A){
+    public int maxVectorIndex(double[] A) {
         int ar = A.length;
         int maxIndex = -1;
         double max = 0;
@@ -173,33 +173,33 @@ public class Matrix {
         return result;
     }
 
-    public double[] sub(double number,double[] A) {
+    public double[] sub(double number, double[] A) {
         int ar = A.length;
         double[] result = new double[ar];
-        for(int i = 0;i < ar;i++) {
+        for (int i = 0; i < ar; i++) {
             result[i] = number - A[i];
         }
         return result;
     }
 
-    public double[] sub(double[] A,double number) {
+    public double[] sub(double[] A, double number) {
         int ar = A.length;
         double[] result = new double[ar];
-        for(int i = 0;i < ar;i++) {
+        for (int i = 0; i < ar; i++) {
             result[i] = A[i] - number;
         }
         return result;
     }
 
-    public double[] division(double[] A,double[] B) {
+    public double[] division(double[] A, double[] B) {
         int ar = A.length;
         int br = B.length;
-        if(ar != br) {
-            System.out.println("除法向量A "+ar+" 维 与 向量B "+br+" 维  因维度不同");
+        if (ar != br) {
+            System.out.println("除法向量A " + ar + " 维 与 向量B " + br + " 维  因维度不同");
             return null;
         }
         double[] result = new double[ar];
-        for(int i = 0;i < ar;i++) {
+        for (int i = 0; i < ar; i++) {
             result[i] = A[i] / B[i];
         }
         return result;
@@ -209,7 +209,7 @@ public class Matrix {
         int ar = A.length;
         int br = B.length;
         if (ar != br) {
-            System.out.println("加法向量A "+ar+" 维 与 向量B "+br+" 维  因维度不同");
+            System.out.println("加法向量A " + ar + " 维 与 向量B " + br + " 维  因维度不同");
             return null;
         }
         double[] result = new double[ar];
@@ -225,7 +225,7 @@ public class Matrix {
         int br = B.length;
         int bc = B[0].length;
         if (ar != br || ac != bc) {
-            System.out.println("加法矩阵A "+ar+" 行 "+ac+" 列 与 矩阵B "+br+" 行 "+bc+" 列 因维度不同。");
+            System.out.println("加法矩阵A " + ar + " 行 " + ac + " 列 与 矩阵B " + br + " 行 " + bc + " 列 因维度不同。");
             return null;
         }
         double[][] result = new double[ar][ac];
@@ -241,7 +241,7 @@ public class Matrix {
         int ar = A.length;
         int br = B.length;
         if (ar != br) {
-            System.out.println("减法向量A "+ar+" 维 与 向量B "+br+" 维  因维度不同");
+            System.out.println("减法向量A " + ar + " 维 与 向量B " + br + " 维  因维度不同");
             return null;
         }
         double[] result = new double[ar];
@@ -257,7 +257,7 @@ public class Matrix {
         int br = B.length;
         int bc = B[0].length;
         if (ar != br || ac != bc) {
-            System.out.println("减法矩阵A "+ar+" 行 "+ac+" 列 与 矩阵B "+br+" 行 "+bc+" 列 因维度不同。");
+            System.out.println("减法矩阵A " + ar + " 行 " + ac + " 列 与 矩阵B " + br + " 行 " + bc + " 列 因维度不同。");
             return null;
         }
         double[][] result = new double[ar][ac];
@@ -273,7 +273,7 @@ public class Matrix {
         int ar = A.length;
         int br = B.length;
         if (ar != br) {
-            System.out.println("元素乘法向量A "+ar+" 维 与 向量B "+br+" 维  因维度不同");
+            System.out.println("元素乘法向量A " + ar + " 维 与 向量B " + br + " 维  因维度不同");
             return null;
         }
         double[] result = new double[ar];
@@ -289,7 +289,7 @@ public class Matrix {
         int br = B.length;
         int bc = B[0].length;
         if (ar != br || ac != bc) {
-            System.out.println("元素乘法矩阵A "+ar+" 行 "+ac+" 列 与 矩阵B "+br+" 行 "+bc+" 列 因维度不同。");
+            System.out.println("元素乘法矩阵A " + ar + " 行 " + ac + " 列 与 矩阵B " + br + " 行 " + bc + " 列 因维度不同。");
             return null;
         }
         double[][] result = new double[ar][ac];
@@ -349,7 +349,7 @@ public class Matrix {
         int br = B.length;
         int bc = B[0].length;
         if (ac != br) {
-            System.out.println("乘法矩阵A "+ar+" 行 "+ac+" 列 与 矩阵B "+br+" 行 "+bc+" 列 因维度不同。");
+            System.out.println("乘法矩阵A " + ar + " 行 " + ac + " 列 与 矩阵B " + br + " 行 " + bc + " 列 因维度不同。");
             return null;
         }
         double[][] result = new double[ar][bc];
@@ -369,22 +369,22 @@ public class Matrix {
         return result;
     }
 
-    public double[] binarization(double[] A,double binarizationInterval) {
+    public double[] binarization(double[] A, double binarizationInterval) {
         int ar = A.length;
         double[] result = new double[ar];
-        for(int i = 0;i < ar;i++) {
-            result[i] = A[i] / (binarizationInterval-1);
+        for (int i = 0; i < ar; i++) {
+            result[i] = A[i] / (binarizationInterval - 1);
         }
         return result;
     }
 
-    public double[][] binarization(double[][] A,double binarizationInterval) {
+    public double[][] binarization(double[][] A, double binarizationInterval) {
         int ar = A.length;
         int ac = A[0].length;
         double[][] result = new double[ar][ac];
-        for(int i = 0;i < ar;i++) {
-            for(int j = 0;j< ac;j++) {
-                result[i][j] = A[i][j] / (binarizationInterval-1);
+        for (int i = 0; i < ar; i++) {
+            for (int j = 0; j < ac; j++) {
+                result[i][j] = A[i][j] / (binarizationInterval - 1);
             }
         }
         return result;
@@ -422,11 +422,11 @@ public class Matrix {
         this.matrix = matrix;
     }
 
-    public int getMatrixRow(double[][] A){
+    public int getMatrixRow(double[][] A) {
         return A.length;
     }
 
-    public int getMatrixColumn(double[][] A){
+    public int getMatrixColumn(double[][] A) {
         return A[0].length;
     }
 

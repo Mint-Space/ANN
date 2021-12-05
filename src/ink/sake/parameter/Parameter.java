@@ -28,15 +28,15 @@ public class Parameter {
     private double[][] newWeight;
     private double[] newBias;
 
-    public Parameter(){
+    public Parameter() {
 
     }
 
-    public Parameter(NeuralLayer neuralLayer){
+    public Parameter(NeuralLayer neuralLayer) {
         this.neuralLayer = neuralLayer;
     }
 
-    public void getParameter(){
+    public void getParameter() {
         getLayerNeuralNumber();
         getLayerWeight();
         getLayerBias();
@@ -48,11 +48,11 @@ public class Parameter {
         getLayerLossType();
     }
 
-    public ActivationFunction getLayerActivationFunction(){
+    public ActivationFunction getLayerActivationFunction() {
         return activationFunction = neuralLayer.getActivationFunction();
     }
 
-    public void setLayerActivationFunction(){
+    public void setLayerActivationFunction() {
         neuralLayer.setActivationFunction(activationFunction);
     }
 
@@ -92,31 +92,31 @@ public class Parameter {
         return bias = neuralLayer.getBias();
     }
 
-    public void setLayerBias(){
+    public void setLayerBias() {
         neuralLayer.setNewBias(newBias);
     }
 
-    public double[] getLayerZ(){
+    public double[] getLayerZ() {
         return z = neuralLayer.getZ();
     }
 
-    public void setLayerZ(double[] z){
+    public void setLayerZ(double[] z) {
         neuralLayer.setZ(dimensionZ);
     }
 
-    public double[] getLayerActivate(){
+    public double[] getLayerActivate() {
         return activate = neuralLayer.getActivate();
     }
 
-    public void setLayerActivate(double[] activate){
+    public void setLayerActivate(double[] activate) {
         neuralLayer.setActivate(dimensionActivate);
     }
 
-    public double[] getLayerX(){
+    public double[] getLayerX() {
         return x = neuralLayer.getX();
     }
 
-    public void setLayerX(double[] x){
+    public void setLayerX(double[] x) {
         neuralLayer.setX(dimensionX);
     }
 

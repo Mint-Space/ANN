@@ -7,7 +7,7 @@ public class ActivationFunction {
     private double derivationActivationValue;
     private double[] activationVector;
     private double[] derivationActivationVector;
-    private ActivationType  activationType;
+    private ActivationType activationType;
 
     Matrix matrix = new Matrix();
 
@@ -16,42 +16,42 @@ public class ActivationFunction {
 
     }
 
-    public ActivationFunction(ActivationType activationType){
+    public ActivationFunction(ActivationType activationType) {
         this.activationType = activationType;
     }
 
-    public double activationValue(double z,ActivationType activationType){
-        if (activationType == ActivationType.Sigmoid){
+    public double activationValue(double z, ActivationType activationType) {
+        if (activationType == ActivationType.Sigmoid) {
             return sigmoid(z);
-        }else if(activationType == ActivationType.RELU){
+        } else if (activationType == ActivationType.RELU) {
             return relu(z);
-        }else {
+        } else {
             return -1;
         }
     }
 
-    public double[] activationValue(double[] z,ActivationType activationType){
-        if (activationType == ActivationType.Sigmoid){
+    public double[] activationValue(double[] z, ActivationType activationType) {
+        if (activationType == ActivationType.Sigmoid) {
             return sigmoid(z);
-        }else if(activationType == ActivationType.RELU){
+        } else if (activationType == ActivationType.RELU) {
             return relu(z);
-        }else {
+        } else {
             return null;
         }
     }
 
-    public double derivationActivationValue(double z,ActivationType activationType){
-        if (activationType == ActivationType.Sigmoid){
+    public double derivationActivationValue(double z, ActivationType activationType) {
+        if (activationType == ActivationType.Sigmoid) {
             return derivationSigmoid(z);
-        }else if(activationType == ActivationType.RELU){
+        } else if (activationType == ActivationType.RELU) {
             return derivationRelu(z);
-        }else {
+        } else {
             return -1;
         }
     }
 
-    public double[] derivationActivationValue(double[] z,ActivationType activationType){
-        switch (activationType){
+    public double[] derivationActivationValue(double[] z, ActivationType activationType) {
+        switch (activationType) {
             case Sigmoid:
                 return derivationSigmoid(z);
             case RELU:

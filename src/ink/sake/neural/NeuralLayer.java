@@ -68,54 +68,54 @@ public class NeuralLayer {
         }
     }
 
-    public double[] forwardPropagation(){
-        z = z(x,weight,bias);
-        return activate =  activationValue(z);
+    public double[] forwardPropagation() {
+        z = z(x, weight, bias);
+        return activate = activationValue(z);
     }
 
-    public double[] firstRandomBias(int biasNumber){
+    public double[] firstRandomBias(int biasNumber) {
         return new Matrix().random(biasNumber);
     }
 
-    public double[] firstRandomBias(double[] bias){
-        if(bias == null){
+    public double[] firstRandomBias(double[] bias) {
+        if (bias == null) {
             return new Matrix().random(this.getNeuralNumber());
-        }else {
+        } else {
             return bias;
         }
     }
 
-    public double[][] firstRandomWeight(int row,int column){
-        return new Matrix().random(row,column);
+    public double[][] firstRandomWeight(int row, int column) {
+        return new Matrix().random(row, column);
     }
 
-    public double[][] firstRandomWeight(double[][] weight){
-        if(weight == null){
-            return new Matrix().random(this.getNeuralNumber(),getX().length);
-        }else {
+    public double[][] firstRandomWeight(double[][] weight) {
+        if (weight == null) {
+            return new Matrix().random(this.getNeuralNumber(), getX().length);
+        } else {
             return weight;
         }
     }
 
-    public double[] z(double[] x,double[][] weight,double[] bias){
+    public double[] z(double[] x, double[][] weight, double[] bias) {
         double[][] product;
         double[][] xMatrix;
         xMatrix = matrix.vectorToColumnMatrix(x);
-        product = matrix.multi(weight,xMatrix);
+        product = matrix.multi(weight, xMatrix);
         double[] productVecotr = matrix.matrixToVector(product);
         return matrix.add(productVecotr, bias);
     }
 
-    public double z(double x,double weight,double bias){
+    public double z(double x, double weight, double bias) {
         return x * weight + bias;
     }
 
-    public double[] activationValue(double[] z){
-        return activationFunction.activationValue(z,activationType);
+    public double[] activationValue(double[] z) {
+        return activationFunction.activationValue(z, activationType);
     }
 
-    public double activationValue(double z){
-        return activationFunction.activationValue(z,activationType);
+    public double activationValue(double z) {
+        return activationFunction.activationValue(z, activationType);
     }
 
     public int getNeuralNumber() {
@@ -175,7 +175,7 @@ public class NeuralLayer {
     }
 
     public void printActiavte() {
-        for (int i =0;i<activate.length;i++){
+        for (int i = 0; i < activate.length; i++) {
             System.out.println(activate[i]);
         }
     }

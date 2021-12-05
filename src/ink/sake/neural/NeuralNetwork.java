@@ -17,13 +17,14 @@ public class NeuralNetwork {
 
     NeuralLayer neuralLayer;
     Parameter parameter;
+    Parameter bestParameter;
     ParameterUtils parameterUtils;
     ActivationFunction layerActivationFunction;
     ActivationType layerActivationType;
     List<NeuralLayer> layerList;
     List<Parameter> layerParameterList;
     List<Parameter> bestParameterList;
-    String dateFormat = "yyyy年MM月dd日hh时mm分ss秒";
+    String dateFormat = "yyyy年MM月dd日HH时mm分ss秒";
 
     double[] X;
     double[][] xMatrix;
@@ -70,25 +71,25 @@ public class NeuralNetwork {
             }
             neuralLayer.init();
             neuralLayer.forwardPropagation();
-                addParameterList(i);
+            addParameterList(i);
         }
         return this;
     }
 
     /**
-    public void forwardPropagation(){
-        for(int i = 0;i < layerList.size();i++){
-            neuralLayer = layerList.get(i);
-            if(i == 0) {
-                neuralLayer.setX(X);
-     }else if(i > 0){
-     layerX = layerList.get(i - 1).getActivate();
-     neuralLayer.setX(layerX);
-     }
-     neuralLayer.forwardPropagation();
-     addParameterList(i);
-     }
-     }
+     * public void forwardPropagation(){
+     * for(int i = 0;i < layerList.size();i++){
+     * neuralLayer = layerList.get(i);
+     * if(i == 0) {
+     * neuralLayer.setX(X);
+     * }else if(i > 0){
+     * layerX = layerList.get(i - 1).getActivate();
+     * neuralLayer.setX(layerX);
+     * }
+     * neuralLayer.forwardPropagation();
+     * addParameterList(i);
+     * }
+     * }
      */
 
     public boolean write() {
@@ -108,12 +109,12 @@ public class NeuralNetwork {
             parameter = new Parameter(layerList.get(index));
             parameter.getParameter();
             layerParameterList.add(parameter);
-        }else {
+        } else {
             parameter = layerParameterList.get(index);
         }
     }
 
-    public void addLayer(NeuralLayer neuralLayer){
+    public void addLayer(NeuralLayer neuralLayer) {
         layerList.add(neuralLayer);
     }
 
@@ -159,79 +160,79 @@ public class NeuralNetwork {
         return derivationLossValue;
     }
 
-    private double[] derivationActivationValue(int layerIndex){
+    private double[] derivationActivationValue(int layerIndex) {
         Parameter derivationActivation = layerParameterList.get(layerIndex);
         layerActivationFunction.setActivationType(layerActivationType);
-        return derivationActivate = layerActivationFunction.derivationActivationValue(derivationActivation.getZ(),derivationActivation.getActivationType());
+        return derivationActivate = layerActivationFunction.derivationActivationValue(derivationActivation.getZ(), derivationActivation.getActivationType());
     }
 
     /**
-    public double[][] derivationWeightValue(int layerIndex){
-        double[][] result;
-        double[][] weight;
-        double[] derivationLossValue;
-        double[] outError;
-        double[][] outErrorMatrix;
-        double[] z;
-        double[] activate;
-        double[] upZ;
-        double[][] activateMatrix;
-        double[] derivationSigmoid;
-        double[] upDerivationSigmoid;
-        double[][] derivationSigmoidMatrix;
-        double[][] upDerivationSigmoidMatrix;
-        double[][] tempMatrix;
-        Parameter derivationWeight = layerParameterList.get(layerIndex);
-        Parameter nextWeight;
-        Parameter upWeight;
-        layerActivationType = derivationWeight.getActivationType();
-        activationFunction.setActivationType(layerActivationType);
-        if(layerParameterList.size() - 1 == layerIndex){
-            upWeight = layerParameterList.get(layerIndex - 1);
-            weight = derivationWeight.getWeight();
-            derivationLossValue = derivationLossValue();
-            z = derivationWeight.getZ();
-            activate = derivationWeight.getActivate();
-            upZ = upWeight.getZ();
-            activateMatrix = matrix.vectorToColumnMatrix(activate);
-            derivationSigmoid = activationFunction.derivationActivationValue(z);
-            upDerivationSigmoid = activationFunction.derivationActivationValue(upZ);
-            upDerivationSigmoidMatrix = matrix.vectorToRowMatrix(upDerivationSigmoid);
-            outError = matrix.elementProduct(derivationLossValue,derivationSigmoid);
-            outErrorMatrix = matrix.vectorToColumnMatrix(outError);
-            this.deltaWeight = outErrorMatrix;
-            tempMatrix = matrix.multi(matrix.transpose(weight),deltaWeight);
-            this.deltaWeight = matrix.elementProduct(tempMatrix,matrix.transpose(upDerivationSigmoidMatrix));
-            result = matrix.multi(deltaWeight,matrix.transpose(activateMatrix));
-            return matrix.transpose(result);
-        }else if(layerIndex > 0) {
-            upWeight = layerParameterList.get(layerIndex - 1);
-            weight = derivationWeight.getWeight();
-            activate = derivationWeight.getActivate();
-            activateMatrix = matrix.vectorToColumnMatrix(activate);
-            upZ = upWeight.getZ();
-            upDerivationSigmoid = activationFunction.derivationActivationValue(upZ);
-            upDerivationSigmoidMatrix = matrix.vectorToRowMatrix(upDerivationSigmoid);
-            tempMatrix = matrix.multi(matrix.transpose(weight),deltaWeight);
-            this.deltaWeight = matrix.elementProduct(tempMatrix,matrix.transpose(upDerivationSigmoidMatrix));
-            result = matrix.multi(deltaWeight,matrix.transpose(activateMatrix));
-            return matrix.transpose(result);
-        }else {
-            weight = derivationWeight.getWeight();
-            activate = derivationWeight.getActivate();
-            activateMatrix = matrix.vectorToColumnMatrix(activate);
-            z = derivationWeight.getZ();
-            derivationSigmoid = activationFunction.derivationActivationValue(z);
-            derivationSigmoidMatrix = matrix.vectorToRowMatrix(derivationSigmoid);
-            tempMatrix = matrix.multi(matrix.transpose(weight),deltaWeight);
-            this.deltaWeight = matrix.elementProduct(tempMatrix,matrix.transpose(derivationSigmoidMatrix));
-            result = matrix.multi(deltaWeight,matrix.transpose(activateMatrix));
-            return matrix.transpose(result);
-        }
-    }
+     * public double[][] derivationWeightValue(int layerIndex){
+     * double[][] result;
+     * double[][] weight;
+     * double[] derivationLossValue;
+     * double[] outError;
+     * double[][] outErrorMatrix;
+     * double[] z;
+     * double[] activate;
+     * double[] upZ;
+     * double[][] activateMatrix;
+     * double[] derivationSigmoid;
+     * double[] upDerivationSigmoid;
+     * double[][] derivationSigmoidMatrix;
+     * double[][] upDerivationSigmoidMatrix;
+     * double[][] tempMatrix;
+     * Parameter derivationWeight = layerParameterList.get(layerIndex);
+     * Parameter nextWeight;
+     * Parameter upWeight;
+     * layerActivationType = derivationWeight.getActivationType();
+     * activationFunction.setActivationType(layerActivationType);
+     * if(layerParameterList.size() - 1 == layerIndex){
+     * upWeight = layerParameterList.get(layerIndex - 1);
+     * weight = derivationWeight.getWeight();
+     * derivationLossValue = derivationLossValue();
+     * z = derivationWeight.getZ();
+     * activate = derivationWeight.getActivate();
+     * upZ = upWeight.getZ();
+     * activateMatrix = matrix.vectorToColumnMatrix(activate);
+     * derivationSigmoid = activationFunction.derivationActivationValue(z);
+     * upDerivationSigmoid = activationFunction.derivationActivationValue(upZ);
+     * upDerivationSigmoidMatrix = matrix.vectorToRowMatrix(upDerivationSigmoid);
+     * outError = matrix.elementProduct(derivationLossValue,derivationSigmoid);
+     * outErrorMatrix = matrix.vectorToColumnMatrix(outError);
+     * this.deltaWeight = outErrorMatrix;
+     * tempMatrix = matrix.multi(matrix.transpose(weight),deltaWeight);
+     * this.deltaWeight = matrix.elementProduct(tempMatrix,matrix.transpose(upDerivationSigmoidMatrix));
+     * result = matrix.multi(deltaWeight,matrix.transpose(activateMatrix));
+     * return matrix.transpose(result);
+     * }else if(layerIndex > 0) {
+     * upWeight = layerParameterList.get(layerIndex - 1);
+     * weight = derivationWeight.getWeight();
+     * activate = derivationWeight.getActivate();
+     * activateMatrix = matrix.vectorToColumnMatrix(activate);
+     * upZ = upWeight.getZ();
+     * upDerivationSigmoid = activationFunction.derivationActivationValue(upZ);
+     * upDerivationSigmoidMatrix = matrix.vectorToRowMatrix(upDerivationSigmoid);
+     * tempMatrix = matrix.multi(matrix.transpose(weight),deltaWeight);
+     * this.deltaWeight = matrix.elementProduct(tempMatrix,matrix.transpose(upDerivationSigmoidMatrix));
+     * result = matrix.multi(deltaWeight,matrix.transpose(activateMatrix));
+     * return matrix.transpose(result);
+     * }else {
+     * weight = derivationWeight.getWeight();
+     * activate = derivationWeight.getActivate();
+     * activateMatrix = matrix.vectorToColumnMatrix(activate);
+     * z = derivationWeight.getZ();
+     * derivationSigmoid = activationFunction.derivationActivationValue(z);
+     * derivationSigmoidMatrix = matrix.vectorToRowMatrix(derivationSigmoid);
+     * tempMatrix = matrix.multi(matrix.transpose(weight),deltaWeight);
+     * this.deltaWeight = matrix.elementProduct(tempMatrix,matrix.transpose(derivationSigmoidMatrix));
+     * result = matrix.multi(deltaWeight,matrix.transpose(activateMatrix));
+     * return matrix.transpose(result);
+     * }
+     * }
      */
 
-    public double[][] derivationWeightValue(int layerIndex){
+    public double[][] derivationWeightValue(int layerIndex) {
         double[][] nextWeight;
         double[] prevActivate;
         double[] x;
@@ -241,7 +242,7 @@ public class NeuralNetwork {
         double[] deltaLossVector;
         Parameter parameter = layerParameterList.get(layerIndex);
         Parameter nextParameter;
-        if(layerIndex == layerParameterList.size() - 1) {
+        if (layerIndex == layerParameterList.size() - 1) {
             derivationLossValue = derivationLossValue();
             prevActivate = parameter.getX();
             prevActivateMatrix = matrix.vectorToColumnMatrix(prevActivate);
@@ -250,94 +251,94 @@ public class NeuralNetwork {
             derivationLossValue = matrix.sub(derivationLossValue, deltaLossVector);
             this.deltaWeight = delta(derivationLossValue, derivationSigmoid);
             return matrix.multi(deltaWeight, matrix.transpose(prevActivateMatrix));
-        }else if(layerIndex > 0 & layerIndex < layerParameterList.size() - 1) {
+        } else if (layerIndex > 0 & layerIndex < layerParameterList.size() - 1) {
             nextParameter = layerParameterList.get(layerIndex + 1);
             nextWeight = nextParameter.getWeight();
             prevActivate = parameter.getX();
             prevActivateMatrix = matrix.vectorToColumnMatrix(prevActivate);
             derivationSigmoid = derivationActivationValue(layerIndex);
-            this.deltaWeight = delta(nextWeight,deltaWeight,derivationSigmoid);
-            return matrix.multi(deltaWeight,matrix.transpose(prevActivateMatrix));
-        }else {
+            this.deltaWeight = delta(nextWeight, deltaWeight, derivationSigmoid);
+            return matrix.multi(deltaWeight, matrix.transpose(prevActivateMatrix));
+        } else {
             nextParameter = layerParameterList.get(layerIndex + 1);
             nextWeight = nextParameter.getWeight();
             x = parameter.getX();
             inputMatrix = matrix.vectorToColumnMatrix(x);
             derivationSigmoid = derivationActivationValue(layerIndex);
-            this.deltaWeight = delta(nextWeight,deltaWeight,derivationSigmoid);
-            return matrix.multi(deltaWeight,matrix.transpose(inputMatrix));
+            this.deltaWeight = delta(nextWeight, deltaWeight, derivationSigmoid);
+            return matrix.multi(deltaWeight, matrix.transpose(inputMatrix));
         }
     }
 
-    private double[][] delta(double[] delta,double[] derivationSigmoid){
+    private double[][] delta(double[] delta, double[] derivationSigmoid) {
         return matrix.vectorToColumnMatrix(matrix.elementProduct(delta, derivationSigmoid));
     }
 
-    private double[][] delta(double[][] weight,double[][] delta,double[] derivationSigmoid){
-        double[][] result = matrix.multi(matrix.transpose(weight),delta);
-        return matrix.elementProduct(result,matrix.vectorToColumnMatrix(derivationSigmoid));
+    private double[][] delta(double[][] weight, double[][] delta, double[] derivationSigmoid) {
+        double[][] result = matrix.multi(matrix.transpose(weight), delta);
+        return matrix.elementProduct(result, matrix.vectorToColumnMatrix(derivationSigmoid));
     }
 
     /**
-    public double[] derivationBiasValue(int layerIndex){
-        double[] result;
-        double[][] weight;
-        double[] z;
-        double[] derivationSigmoid;
-        double[][] tempMatrix;
-        double[] tempVector;
-        Parameter derivationBias = layerParameterList.get(layerIndex);
-        Parameter nextBias;
-        layerActivationType = derivationBias.getActivationType();
-        activationFunction.setActivationType(layerActivationType);
-        if(layerParameterList.size() - 1 == layerIndex){
-            result = derivationLossValue();
-            return this.deltaBias = result;
-        }else if(layerIndex > 0){
-            nextBias = layerParameterList.get(layerIndex + 1);
-            weight = nextBias.getWeight();
-            z = derivationBias.getZ();
-            derivationSigmoid = activationFunction.derivationActivationValue(z);
-            tempMatrix = matrix.multi(matrix.transpose(weight),matrix.vectorToColumnMatrix(deltaBias));
-            tempVector = matrix.matrixToVector(tempMatrix);
-            result = matrix.elementProduct(tempVector,derivationSigmoid);
-            return this.deltaBias = result;
-        }else {
-            nextBias = layerParameterList.get(layerIndex + 1);
-            weight = nextBias.getWeight();
-            z = derivationBias.getZ();
-            derivationSigmoid = activationFunction.derivationActivationValue(z);
-            tempMatrix = matrix.multi(matrix.transpose(weight),matrix.vectorToColumnMatrix(deltaBias));
-            tempVector = matrix.matrixToVector(tempMatrix);
-            result = matrix.elementProduct(tempVector,derivationSigmoid);
-            return this.deltaBias = result;
-        }
-    }
+     * public double[] derivationBiasValue(int layerIndex){
+     * double[] result;
+     * double[][] weight;
+     * double[] z;
+     * double[] derivationSigmoid;
+     * double[][] tempMatrix;
+     * double[] tempVector;
+     * Parameter derivationBias = layerParameterList.get(layerIndex);
+     * Parameter nextBias;
+     * layerActivationType = derivationBias.getActivationType();
+     * activationFunction.setActivationType(layerActivationType);
+     * if(layerParameterList.size() - 1 == layerIndex){
+     * result = derivationLossValue();
+     * return this.deltaBias = result;
+     * }else if(layerIndex > 0){
+     * nextBias = layerParameterList.get(layerIndex + 1);
+     * weight = nextBias.getWeight();
+     * z = derivationBias.getZ();
+     * derivationSigmoid = activationFunction.derivationActivationValue(z);
+     * tempMatrix = matrix.multi(matrix.transpose(weight),matrix.vectorToColumnMatrix(deltaBias));
+     * tempVector = matrix.matrixToVector(tempMatrix);
+     * result = matrix.elementProduct(tempVector,derivationSigmoid);
+     * return this.deltaBias = result;
+     * }else {
+     * nextBias = layerParameterList.get(layerIndex + 1);
+     * weight = nextBias.getWeight();
+     * z = derivationBias.getZ();
+     * derivationSigmoid = activationFunction.derivationActivationValue(z);
+     * tempMatrix = matrix.multi(matrix.transpose(weight),matrix.vectorToColumnMatrix(deltaBias));
+     * tempVector = matrix.matrixToVector(tempMatrix);
+     * result = matrix.elementProduct(tempVector,derivationSigmoid);
+     * return this.deltaBias = result;
+     * }
+     * }
      */
 
-    public double[] derivationBiasValue(int layerIndex){
+    public double[] derivationBiasValue(int layerIndex) {
         double[] result;
         double[][] weight;
         double[] derivationSigmoid;
         double[] deltaLossVector;
         Parameter nextBias;
-        if(layerParameterList.size() - 1 == layerIndex) {
+        if (layerParameterList.size() - 1 == layerIndex) {
             deltaLossVector = matrix.multi(derivationLossValue, learningRate);
             derivationLossValue = matrix.sub(derivationLossValue, deltaLossVector);
             return this.deltaBias = derivationLossValue;
-        }else{
+        } else {
             nextBias = layerParameterList.get(layerIndex + 1);
             weight = nextBias.getWeight();
             derivationSigmoid = derivationActivationValue(layerIndex);
-            result = delta(weight,deltaBias,derivationSigmoid);
+            result = delta(weight, deltaBias, derivationSigmoid);
             return this.deltaBias = result;
         }
     }
 
-    private double[] delta(double[][] weight,double[] deltaBias,double[] derivationSigmoid){
-        double[][] result = matrix.multi(matrix.transpose(weight),matrix.vectorToColumnMatrix(deltaBias));
+    private double[] delta(double[][] weight, double[] deltaBias, double[] derivationSigmoid) {
+        double[][] result = matrix.multi(matrix.transpose(weight), matrix.vectorToColumnMatrix(deltaBias));
         double[] resultVector = matrix.matrixToVector(result);
-        return matrix.elementProduct(resultVector,derivationSigmoid);
+        return matrix.elementProduct(resultVector, derivationSigmoid);
     }
 
     public NeuralNetwork backpropagation() {
@@ -370,10 +371,10 @@ public class NeuralNetwork {
             bias = neuralLayer.getBias();
             deltaWeight = parameter.getDimensionWeight();
             deltaBias = parameter.getDimensionBias();
-            tempWeight = matrix.multi(deltaWeight,learningRate);
-            newWeight = matrix.sub(weight,tempWeight);
-            tempbias = matrix.multi(deltaBias,learningRate);
-            newBias = matrix.sub(bias,tempbias);
+            tempWeight = matrix.multi(deltaWeight, learningRate);
+            newWeight = matrix.sub(weight, tempWeight);
+            tempbias = matrix.multi(deltaBias, learningRate);
+            newBias = matrix.sub(bias, tempbias);
             parameter.setNewWeight(newWeight);
             parameter.setNewBias(newBias);
             parameter.setLayerWeight();
@@ -440,24 +441,11 @@ public class NeuralNetwork {
     }
 
     private NeuralNetwork saveParameterToMem() {
-        Parameter bestParameter;
+
         if (correctRate > desireTheCorrectRate) {
             System.out.println("缓存参数到内存 .......");
-            if(bestParameterList == null){
+            if (bestParameterList == null) {
                 bestParameterList = new ArrayList<Parameter>();
-                for (int i = 0; i < layerParameterList.size(); i++) {
-                    if (bestParameterList.size() <= layerParameterList.size() ) {
-                        bestParameter = new Parameter();
-                        bestParameter.setWeight(layerParameterList.get(i).getWeight());
-                        bestParameter.setBias(layerParameterList.get(i).getBias());
-                        bestParameter.setActivationType(layerParameterList.get(i).getActivationType());
-                        bestParameter.setLossType(layerParameterList.get(i).getLossType());
-                        bestParameter.setNeuralLayer(layerParameterList.get(i).getNeuralLayer());
-                        bestParameter.setNeuralNumber(layerParameterList.get(i).getNeuralNumber());
-                        bestParameterList.add(parameter);
-                    }
-                }
-            }else if(bestParameterList != null){
                 for (int i = 0; i < layerParameterList.size(); i++) {
                     bestParameter = new Parameter();
                     bestParameter.setWeight(layerParameterList.get(i).getWeight());
@@ -466,7 +454,18 @@ public class NeuralNetwork {
                     bestParameter.setLossType(layerParameterList.get(i).getLossType());
                     bestParameter.setNeuralLayer(layerParameterList.get(i).getNeuralLayer());
                     bestParameter.setNeuralNumber(layerParameterList.get(i).getNeuralNumber());
-                    bestParameterList.set(i, parameter);
+                    bestParameterList.add(bestParameter);
+                }
+            } else if (bestParameterList != null) {
+                for (int i = 0; i < layerParameterList.size(); i++) {
+                    bestParameter = new Parameter();
+                    bestParameter.setWeight(layerParameterList.get(i).getWeight());
+                    bestParameter.setBias(layerParameterList.get(i).getBias());
+                    bestParameter.setActivationType(layerParameterList.get(i).getActivationType());
+                    bestParameter.setLossType(layerParameterList.get(i).getLossType());
+                    bestParameter.setNeuralLayer(layerParameterList.get(i).getNeuralLayer());
+                    bestParameter.setNeuralNumber(layerParameterList.get(i).getNeuralNumber());
+                    bestParameterList.set(i, bestParameter);
                 }
                 return this;
             }
