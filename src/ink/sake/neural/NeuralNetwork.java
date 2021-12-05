@@ -430,21 +430,25 @@ public class NeuralNetwork {
         return this;
     }
 
-    public NeuralNetwork saveParameterToFile() {
+    private NeuralNetwork saveParameterToFile() {
         if (!isWrite & bestParameterList != null) {
-            System.out.println("写参数::----");
+            System.out.println("写参数到文件  ........");
             fileName = "BestParameter-" + correctRate + "-" + getNowTime() + ".txt";
             isWrite = write();
         }
         return this;
     }
 
-    public NeuralNetwork saveParameterToMem() {
+    private NeuralNetwork saveParameterToMem() {
         if (correctRate > desireTheCorrectRate) {
-            System.out.println("保存参数::----");
+            System.out.println("缓存参数到内存 .......");
             bestParameterList = new ArrayList<Parameter>();
             for (int i = 0; i < layerParameterList.size() - 1; i++) {
-                bestParameterList.add(layerParameterList.get(i));
+                if (bestParameterList.size() < layerParameterList.size() - 1) {
+                    bestParameterList.add(layerParameterList.get(i));
+                } else {
+                    bestParameterList.set(i, layerParameterList.get(i));
+                }
             }
         }
         return this;
