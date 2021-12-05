@@ -23,7 +23,7 @@ public class NeuralNetwork {
     List<NeuralLayer> layerList;
     List<Parameter> layerParameterList;
     List<Parameter> bestParameterList;
-    String dateFormat = "yyyy-MM-dd_hh:mm:ss";
+    String dateFormat = "yyyy年MM月dd日hh时mm分ss秒";
 
     double[] X;
     double[][] xMatrix;
@@ -57,7 +57,6 @@ public class NeuralNetwork {
         layerParameterList = new ArrayList<Parameter>();
         matrix = new Matrix();
         layerActivationFunction = new ActivationFunction();
-        parameterUtils = new ParameterUtils(bestParameterList);
     }
 
     public NeuralNetwork init() {
@@ -432,8 +431,9 @@ public class NeuralNetwork {
 
     private NeuralNetwork saveParameterToFile() {
         if (!isWrite & bestParameterList != null) {
+            parameterUtils = new ParameterUtils(bestParameterList);
             System.out.println("写参数到文件  ........");
-            fileName = "BestParameter-" + correctRate + "-" + getNowTime() + ".txt";
+            fileName = "BestParameter_" + correctRate + "_" + getNowTime() + ".txt";
             isWrite = write();
         }
         return this;
