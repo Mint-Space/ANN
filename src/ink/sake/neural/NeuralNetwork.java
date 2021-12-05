@@ -8,7 +8,9 @@ import ink.sake.matrix.Matrix;
 import ink.sake.parameter.Parameter;
 import ink.sake.parameter.ParameterUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NeuralNetwork {
@@ -21,6 +23,7 @@ public class NeuralNetwork {
     List<NeuralLayer> layerList;
     List<Parameter> layerParameterList;
     List<Parameter> bestParameterList;
+    String dateFormat = "yyyy-MM-dd_hh:mm:ss";
 
     double[] X;
     double[][] xMatrix;
@@ -430,7 +433,7 @@ public class NeuralNetwork {
     public NeuralNetwork saveParameterToFile() {
         if (!isWrite & bestParameterList != null) {
             System.out.println("写参数::----");
-            fileName = "parameter-" + correctRate + ".txt";
+            fileName = "BestParameter-" + correctRate + "-" + getNowTime() + ".txt";
             isWrite = write();
         }
         return this;
@@ -445,6 +448,13 @@ public class NeuralNetwork {
             }
         }
         return this;
+    }
+
+    private String getNowTime() {
+        Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat(this.dateFormat);
+        String time = dateFormat.format(now);
+        return time;
     }
 
     public NeuralNetwork output(int labelsIndex, LossType lossType) {
