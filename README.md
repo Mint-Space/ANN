@@ -21,4 +21,6 @@
 设置数据集和学习率以及误差函数和期望的准确率，
 train就开始训练了。
 
-训练准确率为75.8% ^_^
+训练准确率为74.7% ^_^
+
+ ![多层感知器神经网络](DataSet/Parameter/Multi-layerPerceptionNeuralNetwork.png "Multi-layer Perception NeuralNetwork")
