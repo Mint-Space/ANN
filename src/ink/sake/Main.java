@@ -23,7 +23,7 @@ public class Main {
         neuralNetwork.setDataSet(X, Y)
                 .setLearningRate(0.045)
                 .setLossType(LossType.LeastSquaresMethod)
-                .setDesireTheCorrectRate(0.7)
+                .setDesireTheCorrectRate(0.72)
                 .train();
     }
 }

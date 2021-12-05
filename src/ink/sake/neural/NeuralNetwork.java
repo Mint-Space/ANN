@@ -440,15 +440,35 @@ public class NeuralNetwork {
     }
 
     private NeuralNetwork saveParameterToMem() {
+        Parameter bestParameter;
         if (correctRate > desireTheCorrectRate) {
             System.out.println("缓存参数到内存 .......");
-            bestParameterList = new ArrayList<Parameter>();
-            for (int i = 0; i < layerParameterList.size() - 1; i++) {
-                if (bestParameterList.size() < layerParameterList.size() - 1) {
-                    bestParameterList.add(layerParameterList.get(i));
-                } else {
-                    bestParameterList.set(i, layerParameterList.get(i));
+            if(bestParameterList == null){
+                bestParameterList = new ArrayList<Parameter>();
+                for (int i = 0; i < layerParameterList.size(); i++) {
+                    if (bestParameterList.size() <= layerParameterList.size() ) {
+                        bestParameter = new Parameter();
+                        bestParameter.setWeight(layerParameterList.get(i).getWeight());
+                        bestParameter.setBias(layerParameterList.get(i).getBias());
+                        bestParameter.setActivationType(layerParameterList.get(i).getActivationType());
+                        bestParameter.setLossType(layerParameterList.get(i).getLossType());
+                        bestParameter.setNeuralLayer(layerParameterList.get(i).getNeuralLayer());
+                        bestParameter.setNeuralNumber(layerParameterList.get(i).getNeuralNumber());
+                        bestParameterList.add(parameter);
+                    }
                 }
+            }else if(bestParameterList != null){
+                for (int i = 0; i < layerParameterList.size(); i++) {
+                    bestParameter = new Parameter();
+                    bestParameter.setWeight(layerParameterList.get(i).getWeight());
+                    bestParameter.setBias(layerParameterList.get(i).getBias());
+                    bestParameter.setActivationType(layerParameterList.get(i).getActivationType());
+                    bestParameter.setLossType(layerParameterList.get(i).getLossType());
+                    bestParameter.setNeuralLayer(layerParameterList.get(i).getNeuralLayer());
+                    bestParameter.setNeuralNumber(layerParameterList.get(i).getNeuralNumber());
+                    bestParameterList.set(i, parameter);
+                }
+                return this;
             }
         }
         return this;

@@ -28,6 +28,10 @@ public class Parameter {
     private double[][] newWeight;
     private double[] newBias;
 
+    public Parameter(){
+
+    }
+
     public Parameter(NeuralLayer neuralLayer){
         this.neuralLayer = neuralLayer;
     }
