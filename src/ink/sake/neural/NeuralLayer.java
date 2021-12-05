@@ -2,6 +2,7 @@ package ink.sake.neural;
 
 import ink.sake.activation.ActivationFunction;
 import ink.sake.activation.ActivationType;
+import ink.sake.lossfunction.LossType;
 import ink.sake.matrix.Matrix;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class NeuralLayer {
     Matrix matrix;
     private ActivationType activationType;
     private ActivationFunction activationFunction;
+    private LossType lossType;
     private int neuralNumber;
     private double[] x;
     private double[] z;
@@ -208,5 +210,13 @@ public class NeuralLayer {
 
     public void setLayerList(List<NeuralLayer> layerList) {
         this.layerList = layerList;
+    }
+
+    public LossType getLossType() {
+        return lossType;
+    }
+
+    public void setLossType(LossType lossType) {
+        this.lossType = lossType;
     }
 }

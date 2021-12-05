@@ -6,6 +6,7 @@ import ink.sake.lossfunction.LossFunction;
 import ink.sake.lossfunction.LossType;
 import ink.sake.matrix.Matrix;
 import ink.sake.parameter.Parameter;
+import ink.sake.parameter.ParameterUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,12 @@ public class NeuralNetwork {
 
     NeuralLayer neuralLayer;
     Parameter parameter;
+    ParameterUtils parameterUtils;
     ActivationFunction layerActivationFunction;
     ActivationType layerActivationType;
     List<NeuralLayer> layerList;
     List<Parameter> layerParameterList;
+    List<Parameter> bestParameterList;
 
     double[] X;
     double[][] xMatrix;
@@ -38,17 +41,20 @@ public class NeuralNetwork {
     double[] deltaBias;
     double learningRate;
 
+    double desireTheCorrectRate;
     double correctRate = 0.0;
     double correct = 0.0;
     double mistake = 0.0;
-
+    String fileName = "parameter.txt";
+    boolean isWrite = false;
     Matrix matrix;
 
-    public NeuralNetwork(List<NeuralLayer> layerList){
+    public NeuralNetwork(List<NeuralLayer> layerList) {
         this.layerList = layerList;
         layerParameterList = new ArrayList<Parameter>();
         matrix = new Matrix();
         layerActivationFunction = new ActivationFunction();
+        parameterUtils = new ParameterUtils(bestParameterList);
     }
 
     public NeuralNetwork init() {
@@ -73,25 +79,30 @@ public class NeuralNetwork {
             neuralLayer = layerList.get(i);
             if(i == 0) {
                 neuralLayer.setX(X);
-            }else if(i > 0){
-                layerX = layerList.get(i - 1).getActivate();
-                neuralLayer.setX(layerX);
-            }
-            neuralLayer.forwardPropagation();
-            addParameterList(i);
-        }
-    }
+     }else if(i > 0){
+     layerX = layerList.get(i - 1).getActivate();
+     neuralLayer.setX(layerX);
+     }
+     neuralLayer.forwardPropagation();
+     addParameterList(i);
+     }
+     }
      */
 
-    private void setParameter(int index){
+    public boolean write() {
+        parameterUtils.setParameterFileName(fileName);
+        return parameterUtils.writeParameter();
+    }
+
+    private void setParameter(int index) {
         parameter = layerParameterList.get(index);
         parameter.getParameter();
         parameter.setLayerWeight();
         parameter.setLayerBias();
     }
 
-    public void addParameterList(int index){
-        if(layerParameterList.size() < layerList.size()){
+    public void addParameterList(int index) {
+        if (layerParameterList.size() < layerList.size()) {
             parameter = new Parameter(layerList.get(index));
             parameter.getParameter();
             layerParameterList.add(parameter);
@@ -142,8 +153,6 @@ public class NeuralNetwork {
         Parameter output = layerParameterList.get(layerParameterList.size() - 1);
         output.getParameter();
         lossFunction = new LossFunction(lossType);
-//        System.out.print(" OUT:");
-//        matrix.printVector(output.getActivate());
         derivationLossValue = lossFunction.derivationLossValue(output.getActivate(), Y);
         return derivationLossValue;
     }
@@ -387,6 +396,7 @@ public class NeuralNetwork {
     }
 
     public NeuralNetwork setLossType(LossType lossType) {
+        layerList.get(layerList.size() - 1).setLossType(lossType);
         this.lossType = lossType;
         return this;
     }
@@ -403,12 +413,47 @@ public class NeuralNetwork {
         return this;
     }
 
-    public void output(int labelsIndex, LossType lossType) {
-        this.Y = setY((int) yVector[labelsIndex]);
-        this.lossType = lossType;
+    public NeuralNetwork train() {
+        for (int i = 0; i < xMatrix.length; i++) {
+            this.input(xMatrix[i], setY((int) yVector[i]))
+                    .init()
+                    .lossValue()
+                    .backpropagation()
+                    .update()
+                    .output(i)
+                    .saveParameterToMem();
+        }
+        saveParameterToFile();
+        return this;
     }
 
-    public void output(int i) {
+    public NeuralNetwork saveParameterToFile() {
+        if (!isWrite & bestParameterList != null) {
+            System.out.println("写参数::----");
+            fileName = "parameter-" + correctRate + ".txt";
+            isWrite = write();
+        }
+        return this;
+    }
+
+    public NeuralNetwork saveParameterToMem() {
+        if (correctRate > desireTheCorrectRate) {
+            System.out.println("保存参数::----");
+            bestParameterList = new ArrayList<Parameter>();
+            for (int i = 0; i < layerParameterList.size() - 1; i++) {
+                bestParameterList.add(layerParameterList.get(i));
+            }
+        }
+        return this;
+    }
+
+    public NeuralNetwork output(int labelsIndex, LossType lossType) {
+        this.Y = setY((int) yVector[labelsIndex]);
+        this.lossType = lossType;
+        return this;
+    }
+
+    public NeuralNetwork output(int i) {
         double[] result;
         int maxIndex;
         parameter = layerParameterList.get(layerList.size() - 1);
@@ -422,9 +467,10 @@ public class NeuralNetwork {
             mistake = i - correct;
         }
         System.out.println("第 " + i + " 个 " + "OUTPUT:  " + maxIndex + "  " + " 期望：" + yVector[i] + " | 正确数： " + correct + " | 错误数： " + mistake + " | losstotal: " + lossValue + " | 正确率： " + correctRate);
+        return this;
     }
 
-    public void output(int i, double Y) {
+    public NeuralNetwork output(int i, double Y) {
         double[] result;
         int maxIndex;
         parameter = layerParameterList.get(layerList.size() - 1);
@@ -438,6 +484,7 @@ public class NeuralNetwork {
             mistake = i - correct;
         }
         System.out.println("第 " + i + " 个 " + "OUTPUT:  " + maxIndex + "  " + " 期望：" + yVector[i] + " | 正确数： " + correct + " | 错误数： " + mistake + " | losstotal: " + lossValue + " | 正确率： " + correctRate);
+        return this;
     }
 
     public double[] setY(int number) {
@@ -456,5 +503,14 @@ public class NeuralNetwork {
             }
         }
         return result;
+    }
+
+    public double getDesireTheCorrectRate() {
+        return desireTheCorrectRate;
+    }
+
+    public NeuralNetwork setDesireTheCorrectRate(double desireTheCorrectRate) {
+        this.desireTheCorrectRate = desireTheCorrectRate;
+        return this;
     }
 }

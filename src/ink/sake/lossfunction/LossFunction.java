@@ -58,8 +58,6 @@ public class LossFunction {
 
     public double[] derivationLeastSquaresMethodVector(double[] A, double[] B) {
         double[] result = matrix.sub(A, B);
-//        System.out.print("LOSS:");
-//        matrix.printVector(result);
         return result;
     }
 }

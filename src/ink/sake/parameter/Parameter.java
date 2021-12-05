@@ -2,6 +2,7 @@ package ink.sake.parameter;
 
 import ink.sake.activation.ActivationFunction;
 import ink.sake.activation.ActivationType;
+import ink.sake.lossfunction.LossType;
 import ink.sake.neural.NeuralLayer;
 
 public class Parameter {
@@ -9,7 +10,9 @@ public class Parameter {
     private NeuralLayer neuralLayer;
     private ActivationType activationType;
     private ActivationFunction activationFunction;
+    private LossType lossType;
 
+    private int neuralNumber;
     private double[][] weight;
     private double[] bias;
     private double[] z;
@@ -30,6 +33,7 @@ public class Parameter {
     }
 
     public void getParameter(){
+        getLayerNeuralNumber();
         getLayerWeight();
         getLayerBias();
         getLayerZ();
@@ -37,6 +41,7 @@ public class Parameter {
         getLayerX();
         getLayerActivationFunction();
         getLayerActivateType();
+        getLayerLossType();
     }
 
     public ActivationFunction getLayerActivationFunction(){
@@ -47,23 +52,39 @@ public class Parameter {
         neuralLayer.setActivationFunction(activationFunction);
     }
 
-    public ActivationType getLayerActivateType(){
+    public ActivationType getLayerActivateType() {
         return activationType = neuralLayer.getActivationType();
     }
 
-    public void setLayerActivateType(ActivationType activateType){
+    public void setLayerActivateType(ActivationType activateType) {
         neuralLayer.setActivationType(activationType);
     }
 
-    public double[][] getLayerWeight(){
+    public LossType getLayerLossType() {
+        return lossType = neuralLayer.getLossType();
+    }
+
+    public void setLayerLossType(LossType layerLossType) {
+        neuralLayer.setLossType(lossType);
+    }
+
+    public int getLayerNeuralNumber() {
+        return neuralNumber = neuralLayer.getNeuralNumber();
+    }
+
+    public void setLayerNeuralNumber(int neuralNumber) {
+        neuralLayer.setNeuralNumber(neuralNumber);
+    }
+
+    public double[][] getLayerWeight() {
         return weight = neuralLayer.getWeight();
     }
 
-    public void setLayerWeight(){
+    public void setLayerWeight() {
         neuralLayer.setNewWeight(newWeight);
     }
 
-    public double[] getLayerBias(){
+    public double[] getLayerBias() {
         return bias = neuralLayer.getBias();
     }
 
@@ -215,9 +236,25 @@ public class Parameter {
         this.newBias = newBias;
     }
 
-    public void printWeight(){
-        for (int i = 0;i < weight.length;i++){
-            for (int j = 0;j < weight[0].length;j++){
+    public int getNeuralNumber() {
+        return neuralNumber;
+    }
+
+    public void setNeuralNumber(int neuralNumber) {
+        this.neuralNumber = neuralNumber;
+    }
+
+    public LossType getLossType() {
+        return lossType;
+    }
+
+    public void setLossType(LossType lossType) {
+        this.lossType = lossType;
+    }
+
+    public void printWeight() {
+        for (int i = 0; i < weight.length; i++) {
+            for (int j = 0; j < weight[0].length; j++) {
                 System.out.println(weight[i][j]);
             }
         }
