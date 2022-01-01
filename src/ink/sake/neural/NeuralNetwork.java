@@ -5,6 +5,7 @@ import ink.sake.activation.ActivationType;
 import ink.sake.lossfunction.LossFunction;
 import ink.sake.lossfunction.LossType;
 import ink.sake.matrix.Matrix;
+import ink.sake.parameter.JsonUtils;
 import ink.sake.parameter.Parameter;
 import ink.sake.parameter.ParameterUtils;
 
@@ -380,6 +381,7 @@ public class NeuralNetwork {
             parameter.setLayerWeight();
             parameter.setLayerBias();
 
+//            new JsonUtils(parameter).getDoubleMatrixField("weight",parameter);
 //            System.out.println("update ew weight: "+newWeight[0][0]);
 
         }
@@ -425,6 +427,8 @@ public class NeuralNetwork {
                     .update()
                     .output(i)
                     .saveParameterToMem();
+
+
         }
         saveParameterToFile();
         return this;
@@ -454,6 +458,7 @@ public class NeuralNetwork {
                     bestParameter.setLossType(layerParameterList.get(i).getLossType());
                     bestParameter.setNeuralLayer(layerParameterList.get(i).getNeuralLayer());
                     bestParameter.setNeuralNumber(layerParameterList.get(i).getNeuralNumber());
+
                     bestParameterList.add(bestParameter);
                 }
             } else if (bestParameterList != null) {

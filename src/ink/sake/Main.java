@@ -5,12 +5,14 @@ import ink.sake.dataset.MnistRead;
 import ink.sake.lossfunction.LossType;
 import ink.sake.neural.NeuralLayer;
 import ink.sake.neural.NeuralNetwork;
+import ink.sake.parameter.JsonUtils;
+import ink.sake.parameter.Parameter;
 
 public class Main {
     static double[][] X;
     static double[] Y;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         X = MnistRead.getImagesBinarization(MnistRead.TRAIN_IMAGES_FILE);
         Y = MnistRead.getLabels(MnistRead.TRAIN_LABELS_FILE);
 
@@ -25,5 +27,6 @@ public class Main {
                 .setLossType(LossType.LeastSquaresMethod)
                 .setDesireTheCorrectRate(0.72)
                 .train();
+
     }
 }
