@@ -91,6 +91,25 @@ public class ExtensionMatrix extends Matrix{
     }
 
     /**
+     * 私有函数取出矩阵最大值
+     * @param A     输入矩阵
+     * @return      最大值
+     */
+    private double matrixMaxNumber(double[][] A){
+        int ar = A.length;
+        int ac = A[0].length;
+        double max = 0;
+        for (int i = 0; i < ar; i++) {
+            for (int j = 0; j < ac; j++) {
+                if(A[i][j] > max){
+                    max = A[i][j];
+                }
+            }
+        }
+        return max;
+    }
+
+    /**
      * 公有函数计算特征图
      * @param input     输入矩阵
      * @param kernel    卷积核
@@ -113,13 +132,41 @@ public class ExtensionMatrix extends Matrix{
         for(int i = 0;i < maxStrideRowCount;i++){
             for (int j = 0; j < maxStrideColConut; j++) {
                 featureMap[i][j] = convolution(getMinMatrix(A,i,j,br,bc,stride),kernel);
-                System.out.print(featureMap[i][j] +" | ");
             }
-            System.out.println();
         }
         return featureMap;
     }
 
+    /**
+     * 公有函数最大化池化
+     * @param input     输入矩阵
+     * @param size      池化大小（正方形）
+     * @return          最大化池化矩阵
+     */
+    public double[][] maxPooling(double[][] input, int size){
+        int inputr = input.length;
+        int inputc = input[0].length;
+        double[][] A =  input;
+        if(Math.floorMod(inputr,size) > 0){
+            int paddingRow = size - Math.floorMod(inputr,size);
+            A = addPaddingMatrix(A,paddingRow,0);
+        }
+        if(Math.floorMod(inputc,size) > 0){
+            int paddingCol = size - Math.floorMod(inputc,size);
+            A = addPaddingMatrix(A,0,paddingCol);
+        }
+        int ar  = A.length;
+        int ac = A[0].length;
+        double[][] result = new double[Math.floorDiv(ar,size)][Math.floorDiv(ac,size)];
+        int rr = result.length;
+        int rc = result[0].length;
+        for (int i = 0; i < rr; i++) {
+            for(int j = 0;j < rc;j++){
+                result[i][j] = matrixMaxNumber(getMinMatrix(A,i,j,size,size,size));
+            }
+        }
+        return result;
+    }
 
     public void printMatrix(){
         int ar = Matrix.length;
@@ -127,6 +174,16 @@ public class ExtensionMatrix extends Matrix{
         for (int i = 0; i < ar; i++) {
             for (int j = 0; j < ac; j++) {
                 System.out.print(Matrix[i][j]);
+            }
+            System.out.println();
+        }
+    }
+    public void printMatrix(double[][] Matrix){
+        int ar = Matrix.length;
+        int ac = Matrix[0].length;
+        for (int i = 0; i < ar; i++) {
+            for (int j = 0; j < ac; j++) {
+                System.out.print(Matrix[i][j]+" | ");
             }
             System.out.println();
         }

@@ -28,31 +28,17 @@ public class Main {
 //                .setLossType(LossType.LeastSquaresMethod)
 //                .setDesireTheCorrectRate(0.72)
 //                .train();
-        double[][] A = {
-                {1,2,1,2},
-                {3,2,1,3},
-                {1,3,1,3}
-        };
-        double[][] B = {
-                {1,0},
-                {0,1}
-        };
-        ExtensionMatrix extensionMatrix = new ExtensionMatrix();
-        double[][] C = extensionMatrix.featureMap(A,B,2);
-//        System.out.println(Math.floorDiv(4,2));
 
-//         int a = 9 ;
-//         int b = 2;
-//         int i = 0;
-//
-//         if(Math.floorMod(a,b) == 0){
-//             i = a / b;
-//            System.out.println(i);
-//         }else {
-//             i = a /b +1;
-//             System.out.println(i);
-//         }
-//         System.out.println(i);
-//        extensionMatrix.printMatrix();
+        double[][] A = {
+                {4,3,4},
+                {1,2,8},
+                {9,2,4}
+        };
+
+        ExtensionMatrix e = new ExtensionMatrix();
+        double[][] a = e.maxPooling(A,2);
+        e.printMatrix(a);
+//        System.out.print(a);
+
     }
 }
