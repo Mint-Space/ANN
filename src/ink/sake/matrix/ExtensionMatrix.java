@@ -110,6 +110,24 @@ public class ExtensionMatrix extends Matrix{
     }
 
     /**
+     * 私有函数取出矩阵平均值
+     * @param A     输入矩阵
+     * @return      平均值
+     */
+    private double matrixAverageNumber(double[][] A){
+        int ar = A.length;
+        int ac = A[0].length;
+        double average = 0;
+        for (int i = 0; i < ar; i++) {
+            for (int j = 0; j < ac; j++) {
+                    average += A[i][j];
+            }
+        }
+        average = average / (ar*ac);
+        return average;
+    }
+
+    /**
      * 公有函数计算特征图
      * @param input     输入矩阵
      * @param kernel    卷积核
@@ -163,6 +181,38 @@ public class ExtensionMatrix extends Matrix{
         for (int i = 0; i < rr; i++) {
             for(int j = 0;j < rc;j++){
                 result[i][j] = matrixMaxNumber(getMinMatrix(A,i,j,size,size,size));
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * 公有方法均分池化
+     * @param input     输入矩阵
+     * @param size      均分池化块大小
+     * @return          均分池化矩阵
+     */
+    public double[][] averagePooling(double[][] input, int size){
+        int inputr = input.length;
+        int inputc = input[0].length;
+        double[][] A =  input;
+        if(Math.floorMod(inputr,size) > 0){
+            int paddingRow = size - Math.floorMod(inputr,size);
+            A = addPaddingMatrix(A,paddingRow,0);
+        }
+        if(Math.floorMod(inputc,size) > 0){
+            int paddingCol = size - Math.floorMod(inputc,size);
+            A = addPaddingMatrix(A,0,paddingCol);
+        }
+        int ar  = A.length;
+        int ac = A[0].length;
+        double[][] result = new double[Math.floorDiv(ar,size)][Math.floorDiv(ac,size)];
+        int rr = result.length;
+        int rc = result[0].length;
+        for (int i = 0; i < rr; i++) {
+            for(int j = 0;j < rc;j++){
+                result[i][j] = matrixAverageNumber(getMinMatrix(A,i,j,size,size,size));
             }
         }
         return result;

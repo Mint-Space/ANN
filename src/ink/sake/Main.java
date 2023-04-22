@@ -36,7 +36,7 @@ public class Main {
         };
 
         ExtensionMatrix e = new ExtensionMatrix();
-        double[][] a = e.maxPooling(A,2);
+        double[][] a = e.averagePooling(A,2);
         e.printMatrix(a);
 //        System.out.print(a);
 
