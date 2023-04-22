@@ -319,6 +319,22 @@ public class Matrix {
         return vector = result;
     }
 
+    public double sum(double[] A){
+        int ar = A.length;
+        double result = 0;
+        for (int i = 0; i < ar; i++) {
+            result += A[i];
+        }
+        return result;
+    }
+
+    public double[] sumVector(double A,int row){
+        double[] result = new double[row];
+        for (int i = 0; i < row; i++) {
+            result[i] = A;
+        }
+        return result;
+    }
     public double[][] pow(double[][] A, double number) {
         int ar = A.length;
         int ac = A[0].length;
