@@ -10,21 +10,40 @@ public class Matrix {
 
     private BigDecimal bigDecimal;
 
+    /**
+     * 构造函数
+     */
     public Matrix() {
 
     }
 
     //构造函数 参数为向量行数
+
+    /**
+     * 构造函数
+     * @param row   向量行数
+     */
     public Matrix(int row) {
         this.row = row;
     }
 
     //构造函数
+
+    /**
+     * 构造函数
+     * @param row       矩阵行
+     * @param column    矩阵列
+     */
     public Matrix(int row, int column) {
         this.row = row;
         this.column = column;
     }
 
+    /**
+     * 生成随机向量
+     * @param row   向量行
+     * @return      随机向量
+     */
     public double[] random(int row) {
         double[] result = new double[row];
         for (int i = 0; i < row; i++) {
@@ -33,6 +52,12 @@ public class Matrix {
         return vector = result;
     }
 
+    /**
+     * 生成随机矩阵
+     * @param row       矩阵行
+     * @param column    矩阵列
+     * @return          随机矩阵
+     */
     public double[][] random(int row, int column) {
         double[][] result = new double[row][column];
         for (int i = 0; i < row; i++) {
@@ -43,26 +68,32 @@ public class Matrix {
         return matrix = result;
     }
 
+    /**
+     * 生成随机零向量
+     * @param row   零向量行
+     * @return      随机零向量
+     */
     public double[] zero(int row) {
         double[] result = new double[row];
-//        for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < column; j++) {
-//                result[i][j] = 0.0;
-//            }
-//        }
         return vector = result;
     }
 
+    /**
+     * 生成随机零矩阵
+     * @param row       零矩阵行
+     * @param column    零矩阵列
+     * @return          随机零矩阵
+     */
     public double[][] zero(int row, int column) {
         double[][] result = new double[row][column];
-//        for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < column; j++) {
-//                result[i][j] = 0.0;
-//            }
-//        }
         return matrix = result;
     }
 
+    /**
+     * 矩阵转置
+     * @param A 矩阵A
+     * @return  转置后的矩阵
+     */
     public double[][] transpose(double[][] A) {
         int ar = A.length;
         int ac = A[0].length;
@@ -75,7 +106,12 @@ public class Matrix {
         return matrix = result;
     }
 
-    // {{1,2,3...}}
+
+    /**
+     * 一维向量转为1行xN列矩阵   {{1,2,3...}}
+     * @param A     向量A
+     * @return      1行xN列矩阵   {{1,2,3...}}
+     */
     public double[][] vectorToRowMatrix(double[] A) {
         int ar = A.length;
         double[][] result = new double[1][ar];
@@ -86,6 +122,12 @@ public class Matrix {
     }
 
     // {{1},{2},{3}...}
+
+    /**
+     * 一维向量转为N行x1列矩阵    {{1},{2},{3}...}
+     * @param A     向量A
+     * @return      N行x1列矩阵    {{1},{2},{3}...}
+     */
     public double[][] vectorToColumnMatrix(double[] A) {
         int ar = A.length;
         double[][] result = new double[ar][1];
@@ -95,6 +137,11 @@ public class Matrix {
         return matrix = result;
     }
 
+    /**
+     * 矩阵转为向量
+     * @param A     矩阵A
+     * @return      一维向量
+     */
     public double[] matrixToVector(double[][] A) {
         int ar = A.length;
         int ac = A[0].length;
@@ -120,6 +167,11 @@ public class Matrix {
         return vector = result;
     }
 
+    /**
+     * 一维向量最大值的下标
+     * @param A     一维向量
+     * @return      一维向量最大值的下标
+     */
     public int maxVectorIndex(double[] A) {
         int ar = A.length;
         int maxIndex = -1;
@@ -136,6 +188,11 @@ public class Matrix {
         return maxIndex;
     }
 
+    /**
+     * 向量取反
+     * @param A     一维向量
+     * @return      一维向量取反
+     */
     public double[] not(double[] A) {
         int ar = A.length;
         double[] result = new double[ar];
@@ -146,6 +203,11 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * 一维向量的绝对值
+     * @param A     一维向量
+     * @return      取绝对值后的一维向量
+     */
     public double[] abs(double[] A) {
         int ar = A.length;
         double[] result = new double[ar];
@@ -155,6 +217,11 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * 一维向量的所有值的总和
+     * @param A     一维向量
+     * @return      一维向量的所有值的总和
+     */
     public double vectorSum(double[] A) {
         double result = 0.0;
         int ar = A.length;
@@ -164,7 +231,12 @@ public class Matrix {
         return result;
     }
 
-    public double[] ln(double[] A) {
+    /**
+     * 一维向量log值
+     * @param A     一维向量
+     * @return      一维向量log值
+     */
+    public double[] log(double[] A) {
         int ar = A.length;
         double[] result = new double[ar];
         for (int i = 0; i < ar; i++) {
@@ -173,6 +245,12 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * 一个数和一维向量的减法
+     * @param number    一个有小数点的数
+     * @param A         一维向量
+     * @return          一个有小数点的数与一维向量的差
+     */
     public double[] sub(double number, double[] A) {
         int ar = A.length;
         double[] result = new double[ar];
@@ -182,6 +260,12 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * 一维向量和一个数的减法
+     * @param A         一维向量
+     * @param number    一个有小数点的数
+     * @return          一维向量与一个有小数点点的数的差
+     */
     public double[] sub(double[] A, double number) {
         int ar = A.length;
         double[] result = new double[ar];
@@ -191,6 +275,12 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * 两个向量各元素相除
+     * @param A     一维向量
+     * @param B     一维向量
+     * @return      两个向量各元素相除
+     */
     public double[] division(double[] A, double[] B) {
         int ar = A.length;
         int br = B.length;
@@ -205,6 +295,12 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * 两个向量各元素相加
+     * @param A     一维向量
+     * @param B     一维向量
+     * @return      两个向量各元素相加
+     */
     public double[] add(double[] A, double[] B) {
         int ar = A.length;
         int br = B.length;
@@ -219,6 +315,12 @@ public class Matrix {
         return vector = result;
     }
 
+    /**
+     * 两个矩阵各元素相加
+     * @param A     二维矩阵
+     * @param B     二维矩阵
+     * @return      两个矩阵各元素相加
+     */
     public double[][] add(double[][] A, double[][] B) {
         int ar = A.length;
         int ac = A[0].length;
@@ -237,6 +339,12 @@ public class Matrix {
         return matrix = result;
     }
 
+    /**
+     * 两个一维向量各元素相减
+     * @param A     一维向量
+     * @param B     一维向量
+     * @return      两个一维向量各元素相减
+     */
     public double[] sub(double[] A, double[] B) {
         int ar = A.length;
         int br = B.length;
@@ -251,6 +359,12 @@ public class Matrix {
         return vector = result;
     }
 
+    /**
+     * 两个二维矩阵各元素相减
+     * @param A     二维矩阵
+     * @param B     二维矩阵
+     * @return      两个二维矩阵各元素相减
+     */
     public double[][] sub(double[][] A, double[][] B) {
         int ar = A.length;
         int ac = A[0].length;
@@ -269,6 +383,12 @@ public class Matrix {
         return matrix = result;
     }
 
+    /**
+     * 两个一维向量各元素相乘
+     * @param A     一维向量
+     * @param B     一维向量
+     * @return      两个一维向量各元素相乘
+     */
     public double[] elementProduct(double[] A, double[] B) {
         int ar = A.length;
         int br = B.length;
@@ -283,6 +403,12 @@ public class Matrix {
         return vector = result;
     }
 
+    /**
+     * 两个二维矩阵各元素相乘
+     * @param A     二维矩阵
+     * @param B     二维矩阵
+     * @return      两个二维矩阵各元素相乘
+     */
     public double[][] elementProduct(double[][] A, double[][] B) {
         int ar = A.length;
         int ac = A[0].length;
@@ -301,6 +427,12 @@ public class Matrix {
         return matrix = result;
     }
 
+    /**
+     * 一维向量的N次方
+     * @param A         一维向量
+     * @param number    N次
+     * @return          一维向量的N次方
+     */
     public double[] pow(double[] A, double number) {
         int ar = A.length;
         double[] result = new double[ar];
@@ -310,6 +442,13 @@ public class Matrix {
         return vector = result;
     }
 
+
+    /**
+     * 一维向量乘一一个带小数点的数
+     * @param A         一维向量
+     * @param number    一个带小数点的数
+     * @return          一维向量乘一一个带小数点的数
+     */
     public double[] multi(double[] A, double number) {
         int ar = A.length;
         double[] result = new double[ar];
@@ -319,22 +458,25 @@ public class Matrix {
         return vector = result;
     }
 
-    public double sum(double[] A){
-        int ar = A.length;
-        double result = 0;
-        for (int i = 0; i < ar; i++) {
-            result += A[i];
-        }
-        return result;
-    }
-
-    public double[] sumVector(double A,int row){
+    /**
+     * 一个带小数点的数复制到一维向量
+     * @param A     一个带小数点的数
+     * @param row   一维向量行数（长度）
+     * @return      一个带小数点的数复制到一维向量
+     */
+    public double[] numberCopyToVector(double A,int row){
         double[] result = new double[row];
         for (int i = 0; i < row; i++) {
             result[i] = A;
         }
         return result;
     }
+    /**
+     * 二维矩阵各元素的N次方
+     * @param A         二维矩阵
+     * @param number    N次
+     * @return          二维矩阵各元素的N次方
+     */
     public double[][] pow(double[][] A, double number) {
         int ar = A.length;
         int ac = A[0].length;
@@ -347,6 +489,13 @@ public class Matrix {
         return matrix = result;
     }
 
+    /**
+     * 二维矩阵和一个带小数点的数相乘
+     * @param A         二维矩阵
+     * @param number    一个带小数点的数
+     * @return          二维矩阵和一个带小数点的数相乘
+     *
+     */
     public double[][] multi(double[][] A, double number) {
         int ar = A.length;
         int ac = A[0].length;
@@ -359,6 +508,12 @@ public class Matrix {
         return matrix = result;
     }
 
+    /**
+     * 两个二维矩阵相乘
+     * @param A     二维矩阵A
+     * @param B     二维矩阵B
+     * @return      两个二维矩阵相乘
+     */
     public double[][] multi(double[][] A, double[][] B) {
         int ar = A.length;
         int ac = A[0].length;
@@ -377,6 +532,15 @@ public class Matrix {
         return matrix = result;
     }
 
+    /**
+     * 两个二维矩阵相乘
+     * @param A         二维矩阵A
+     * @param B         二维矩阵B
+     * @param row       二维矩阵A的行
+     * @param column    二维矩阵B的列
+     * @param key       二维矩阵A的列
+     * @return          两个二维矩阵相乘
+     */
     private double result(double[][] A, double[][] B, int row, int column, int key) {
         double result = 0;
         for (int i = 0; i < key; i++) {
@@ -385,6 +549,12 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * 一维向量二值化
+     * @param A                     一维向量
+     * @param binarizationInterval  二值化的最大数
+     * @return                      二值化为0~1的数
+     */
     public double[] binarization(double[] A, double binarizationInterval) {
         int ar = A.length;
         double[] result = new double[ar];
@@ -394,6 +564,12 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * 二维矩阵二值化
+     * @param A                         二维矩阵
+     * @param binarizationInterval      二值化的最大数
+     * @return                          二值化为0~1的数
+     */
     public double[][] binarization(double[][] A, double binarizationInterval) {
         int ar = A.length;
         int ac = A[0].length;

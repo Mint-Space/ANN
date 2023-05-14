@@ -43,8 +43,8 @@ public class LossFunction {
 
     public double[] leastSquaresMethodVector(double[] A, double[] B) {
         int ar = A.length;
-        double[] result = matrix.sub(A, B);
-        return matrix.multi(matrix.sumVector(matrix.sum(matrix.pow(result, 2.0)),ar),1/ar);
+        double[] result = matrix.abs(matrix.sub(A, B));
+        return matrix.multi(matrix.numberCopyToVector(matrix.vectorSum(matrix.pow(result, 2.0)),ar),0.5);
     }
 
     public double leastSquaresMethodValue(double[] A, double[] B) {
