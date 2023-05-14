@@ -6,14 +6,12 @@ public class ExtensionMatrix extends Matrix{
      * 步长
      */
     private int stride;
-    private  Matrix Matrix;
 
     /**
      * 构造函数
      */
     public ExtensionMatrix(){
         super();
-        this.Matrix = new Matrix();
     }
 
     /**
@@ -225,24 +223,4 @@ public class ExtensionMatrix extends Matrix{
         return result;
     }
 
-//    public void printMatrix(){
-//        int ar = Matrix.length;
-//        int ac = Matrix[0].length;
-//        for (int i = 0; i < ar; i++) {
-//            for (int j = 0; j < ac; j++) {
-//                System.out.print(Matrix[i][j]);
-//            }
-//            System.out.println();
-//        }
-//    }
-    public void printMatrix(double[][] Matrix){
-        int ar = Matrix.length;
-        int ac = Matrix[0].length;
-        for (int i = 0; i < ar; i++) {
-            for (int j = 0; j < ac; j++) {
-                System.out.print(Matrix[i][j]+" | ");
-            }
-            System.out.println();
-        }
-    }
 }

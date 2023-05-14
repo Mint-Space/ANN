@@ -12,10 +12,12 @@ public class ConvolutionNeuralNetwork {
         extensionMatrix = new ExtensionMatrix();
     }
 
-    public void input(Matrix matrix){
-        matrix = this.matrix;
-    }
 
     public void build(){
+        matrix = new Matrix(3,3);
+    }
+    public double[][] input(double[][] A){
+        extensionMatrix.featureMap(A,A,2);
+        return null;
     }
 }

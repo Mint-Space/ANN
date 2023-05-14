@@ -38,7 +38,7 @@ public class Main {
 
         double[] B = {2,5,6,5,6,32,7};
         Matrix matrix = new Matrix();
-        double[] b = matrix.not(B);
+        double[] b = matrix.matrixToVector(A);
         matrix.printVector(b);
 //        ExtensionMatrix e = new ExtensionMatrix();
 //        double[][] a = e.averagePooling(A,2);

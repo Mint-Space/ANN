@@ -3,11 +3,26 @@ package ink.sake.matrix;
 import java.math.BigDecimal;
 
 public class Matrix {
+    /**
+     * 行数
+     */
     private int row;
+    /**
+     * 列数
+     */
     private int column;
+    /**
+     * 一维向量
+     */
     private double[] vector;
+    /**
+     * 二维矩阵
+     */
     private double[][] matrix;
 
+    /**
+     * BigDecimal类型
+     */
     private BigDecimal bigDecimal;
 
     /**
@@ -161,8 +176,21 @@ public class Matrix {
                 }
             }
         } else {
+            result = new double[ar*ac];
+            int rr = result.length;
+            double number = 0;
+                for (int j = 0; j < ar; j++) {
+                    for (int z = 0; z < ac; z++) {
+                        result[z] = A[j][z];
+                        System.out.print(j+z);
+                    }
+                    //eeeerrrrrrr
+//                result[i] = result[j];
+                }
+
+
             System.out.println("矩阵A 没有一维的行或列，不适合将矩阵转换为向量。");
-            return null;
+            return result;
         }
         return vector = result;
     }
@@ -582,46 +610,89 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * 得到行数
+     * @return      得到行数
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * 设置行数
+     * @param row       设置行数
+     */
     public void setRow(int row) {
         this.row = row;
     }
 
+    /**
+     * 得到列数
+     * @return      得到列数
+     */
     public int getColumn() {
         return column;
     }
 
+    /**
+     * 设置列数
+     * @param column        设置列数
+     */
     public void setColumn(int column) {
         this.column = column;
     }
 
+    /**
+     * 得到一维向量
+     * @return      得到一维向量
+     */
     public double[] getVector() {
         return vector;
     }
 
+    /**
+     * 设置一维向量
+     * @param vector        设置一维向量
+     */
     public void setVector(double[] vector) {
         this.vector = vector;
     }
 
+    /**
+     * 得到二维矩阵
+     * @return      得到二维矩阵
+     */
     public double[][] getMatrix() {
         return matrix;
     }
 
+    /**
+     * 设置二维矩阵
+     * @param matrix        设置二维矩阵
+     */
     public void setMatrix(double[][] matrix) {
         this.matrix = matrix;
     }
 
-    public int getMatrixRow(double[][] A) {
-        return A.length;
+    /**
+     * 得到二维矩阵行数
+     * @return 得到二维矩阵行数
+     */
+    public int getMatrixRow() {
+        return matrix.length;
     }
 
-    public int getMatrixColumn(double[][] A) {
-        return A[0].length;
+    /**
+     * 得到二维矩阵列数
+     * @return 得到二维矩阵列数
+     */
+    public int getMatrixColumn() {
+        return matrix[0].length;
     }
 
+    /**
+     * 打印一维向量
+     */
     public void printVector() {
         int vr = vector.length;
         for (int i = 0; i < vr; i++) {
@@ -629,6 +700,10 @@ public class Matrix {
         }
     }
 
+    /**
+     * 打印一维向量
+     * @param vector    一维向量
+     */
     public void printVector(double[] vector) {
         int vr = vector.length;
         for (int i = 0; i < vr; i++) {
@@ -637,6 +712,9 @@ public class Matrix {
         System.out.println();
     }
 
+    /**
+     * 打印二维矩阵
+     */
     public void printMatrix() {
         int mr = matrix.length;
         int mc = matrix[0].length;
@@ -648,6 +726,10 @@ public class Matrix {
         }
     }
 
+    /**
+     * 打印二维矩阵
+     * @param matrix 二维矩阵
+     */
     public void printMatrix(double[][] matrix) {
         int mr = matrix.length;
         int mc = matrix[0].length;
