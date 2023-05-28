@@ -43,9 +43,14 @@ public class NeuralLayer {
         matrix = new Matrix();
     }
 
-    public void init() {
-        this.weight = this.firstRandomWeight(newWeight);
-        this.bias = this.firstRandomBias(newBias);
+    public void init(boolean toTrain) {
+        if(toTrain){
+            this.weight = this.firstRandomWeight(newWeight);
+            this.bias = this.firstRandomBias(newBias);
+        }else {
+            this.weight = null;
+            this.bias = null;
+        }
     }
 
     public NeuralLayer createNeuralLayer(int neuralNumber, ActivationType activationType) {

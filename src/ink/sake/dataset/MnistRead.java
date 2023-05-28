@@ -66,6 +66,39 @@ public class MnistRead {
         return x;
     }
 
+    public static double[][][] getImagesMatrix(String fileName){
+        double[][][] x = null;
+        try (BufferedInputStream bin = new BufferedInputStream(new FileInputStream(fileName))) {
+            byte[] bytes = new byte[4];
+            bin.read(bytes, 0, 4);
+            if (!"00000803".equals(bytesToHex(bytes))) { // 读取魔数
+                throw new RuntimeException("Please select the correct file!");
+            } else {
+                bin.read(bytes, 0, 4);
+                int number = Integer.parseInt(bytesToHex(bytes), 16); // 读取样本总数
+                bin.read(bytes, 0, 4);
+                int xPixel = Integer.parseInt(bytesToHex(bytes), 16); // 读取每行所含像素点数
+                bin.read(bytes, 0, 4);
+                int yPixel = Integer.parseInt(bytesToHex(bytes), 16); // 读取每列所含像素点数
+                x = new double[number][xPixel][yPixel];
+                for (int i = 0; i < number; i++) {
+                    double[][] element = new double[xPixel][yPixel];
+                    for (int j = 0; j < xPixel; j++) {
+                        for (int k = 0; k < yPixel; k++) {
+                            element[j][k] = bin.read() / 255.0; // 逐一读取像素值
+                        }
+                        // normalization
+//                        element[j] = bin.read() / 255.0;
+                    }
+                    x[i] = element;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return x;
+    }
+
     public static double[][] getImagesBinarization(String fileName) {
         double[][] x = null;
         try (BufferedInputStream bin = new BufferedInputStream(new FileInputStream(fileName))) {

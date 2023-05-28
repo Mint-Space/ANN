@@ -385,12 +385,9 @@ public class Matrix {
         return result;
     }
 
-    public double[] binarization(double[] A, double binarizationInterval) {
-        int ar = A.length;
-        double[] result = new double[ar];
-        for (int i = 0; i < ar; i++) {
-            result[i] = A[i] / (binarizationInterval - 1);
-        }
+    public double binarization(double A, double binarizationInterval) {
+        double result = 0;
+        result = A / (binarizationInterval - 1);
         return result;
     }
 

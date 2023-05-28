@@ -70,7 +70,7 @@ public class NeuralNetwork {
                 layerX = layerList.get(i - 1).getActivate();
                 neuralLayer.setX(layerX);
             }
-            neuralLayer.init();
+            neuralLayer.init(true);
             neuralLayer.forwardPropagation();
             addParameterList(i);
         }
@@ -411,8 +411,8 @@ public class NeuralNetwork {
             this.input(xMatrix[i], setY((int) yVector[i]))
                     .init()
                     .lossValue()
-                    .backpropagation()
-                    .update()
+//                    .backpropagation()
+//                    .update()
                     .output(i);
         }
         return this;

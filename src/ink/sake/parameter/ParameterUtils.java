@@ -3,14 +3,16 @@ package ink.sake.parameter;
 import ink.sake.activation.ActivationType;
 import ink.sake.lossfunction.LossType;
 
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParameterUtils {
 
     public static final String SaveParameterPath = "DataSet/Parameter/";
     public static final String ReadParameterPath = "DataSet/Parameter/";
+
+    String networkParameter = "";
 
     List<Parameter> parameterList;
     double[][] weight;
@@ -21,8 +23,11 @@ public class ParameterUtils {
     boolean isWriteSuccess = false;
     boolean isAppend = false;
     private String parameterFileName = "";
-    private String fullPathName = "";
+    private String fullPathName = "DataSet/Parameter/BestParameter_0.7532458874314572_2023年04月22日17时43分58秒.txt";
 
+    JsonUtils jsonUtils = null;
+    public ParameterUtils(){
+    }
     public ParameterUtils(List<Parameter> parameterList) {
         this.parameterList = parameterList;
     }
@@ -108,26 +113,51 @@ public class ParameterUtils {
 
 
 
-    private boolean read() {
+    public boolean read(String fullPathName) {
         boolean isFile = false;
-        FileReader fileReader = null;
+        FileInputStream fileInputStream = null;
+        InputStreamReader reader = null;
+        BufferedReader bufferedReader = null;
+        String parameterString = "";
         try {
-            fileReader = new FileReader(fullPathName);
-            if (fileReader.read() != -1) {
-                isFile = true;
+            fileInputStream = new FileInputStream(fullPathName);
+            reader = new InputStreamReader(fileInputStream);
+            bufferedReader = new BufferedReader(reader);
+            String string = "";
+            while(( string = bufferedReader.readLine())!=null){
+                parameterString += string;
             }
+            parsingParameters(parameterString);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if (fileReader != null) {
-                    fileReader.close();
+                if (bufferedReader != null) {
+                    bufferedReader.close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return isFile;
+    }
+
+    public Parameter parsingParameters(String data){
+        Parameter parameter = new Parameter();
+//        JSONFunctions jsonFunctions = new JSONListAdapter(data);
+        String[] dataArray = data.split("\\{|\\}",8);
+        ArrayList<String> stringArrayList = new ArrayList<>();
+        System.out.println(dataArray.length);
+        for (int i = 0; i < dataArray.length; i++) {
+            String[]  neuralNetworkParameterString= dataArray[i].split("NeuralNetworkParameter");
+            for (int j = 0; j < neuralNetworkParameterString.length; j++) {
+//                System.out.println(neuralNetworkParameterString[j]);
+                
+            }
+
+        }
+        System.out.println();
+        return parameter;
     }
 
     public String getParameterFileName() {

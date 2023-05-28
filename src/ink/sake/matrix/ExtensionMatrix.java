@@ -218,6 +218,21 @@ public class ExtensionMatrix extends Matrix{
         return result;
     }
 
+    public double[][] createZeroKernel(int size){
+        double[][] result = new double[size][size];
+        return result;
+    }
+
+    public double[][] createRandomKernel(int size){
+        double[][] result = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                result[i][j] = Math.random() - 0.5;
+            }
+        }
+        return result;
+    }
+
     public void printMatrix(){
         int ar = Matrix.length;
         int ac = Matrix[0].length;

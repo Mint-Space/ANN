@@ -7,16 +7,19 @@ public class ActivationFunction {
     private double derivationActivationValue;
     private double[] activationVector;
     private double[] derivationActivationVector;
+    private double[][] activationMatrix;
+    private double[][] derivationActivationMatrix;
     private ActivationType activationType;
 
-    Matrix matrix = new Matrix();
+    Matrix matrix = null;
 
 
     public ActivationFunction() {
-
+        matrix = new Matrix();
     }
 
     public ActivationFunction(ActivationType activationType) {
+        matrix = new Matrix();
         this.activationType = activationType;
     }
 
@@ -31,6 +34,16 @@ public class ActivationFunction {
     }
 
     public double[] activationValue(double[] z, ActivationType activationType) {
+        if (activationType == ActivationType.Sigmoid) {
+            return sigmoid(z);
+        } else if (activationType == ActivationType.RELU) {
+            return relu(z);
+        } else {
+            return null;
+        }
+    }
+
+    public double[][] activationValue(double[][] z, ActivationType activationType) {
         if (activationType == ActivationType.Sigmoid) {
             return sigmoid(z);
         } else if (activationType == ActivationType.RELU) {
@@ -61,6 +74,17 @@ public class ActivationFunction {
         }
     }
 
+    public double[][] derivationActivationValue(double[][] z, ActivationType activationType) {
+        switch (activationType) {
+            case Sigmoid:
+                return derivationSigmoid(z);
+            case RELU:
+                return derivationRelu(z);
+            default:
+                return null;
+        }
+    }
+
     public double sigmoid(double z) {
         return activationValue = 1 / (1 + Math.exp(-1 * z));
     }
@@ -72,6 +96,18 @@ public class ActivationFunction {
             result[i] = 1 / (1 + Math.exp(-1 * z[i]));
         }
         return activationVector = result;
+    }
+
+    public double[][] sigmoid(double[][] z) {
+        int zr = z.length;
+        int zc = z[0].length;
+        double[][] result = new double[zr][zc];
+        for (int i = 0; i < zr; i++) {
+            for (int j = 0; j < zc; j++) {
+                result[i][j] = 1 / (1 + Math.exp(-1 * z[i][j]));
+            }
+        }
+        return activationMatrix = result;
     }
 
     public double derivationSigmoid(double z) {
@@ -89,6 +125,19 @@ public class ActivationFunction {
         return derivationActivationVector = result;
     }
 
+    public double[][] derivationSigmoid(double[][] z) {
+        int zr = z.length;
+        int zc = z[0].length;
+        double[][] a = sigmoid(z);
+        double[][] result = new double[zr][zc];
+        for (int i = 0; i < zr; i++) {
+            for (int j = 0; j < zc; j++) {
+                result[i][j] = a[i][j] * (1 - a[i][j]);
+            }
+        }
+        return derivationActivationMatrix = result;
+    }
+
     public double relu(double z) {
         return activationValue = Math.max(0, z);
     }
@@ -100,6 +149,18 @@ public class ActivationFunction {
             result[i] = Math.max(0, z[i]);
         }
         return activationVector = result;
+    }
+
+    public double[][] relu(double[][] z) {
+        int zr = z.length;
+        int zc = z[0].length;
+        activationMatrix = new double[zr][zc];
+        for (int i = 0; i < zr; i++) {
+            for (int j = 0; j < zc; j++) {
+                activationMatrix[i][j] = Math.max(0, z[i][j]);
+            }
+        }
+        return activationMatrix;
     }
 
     public double derivationRelu(double z) {
@@ -121,6 +182,22 @@ public class ActivationFunction {
             }
         }
         return derivationActivationVector = result;
+    }
+
+    public double[][] derivationRelu(double[][] z) {
+        int zr = z.length;
+        int zc = z[0].length;
+        derivationActivationMatrix = new double[zr][zc];
+        for (int i = 0; i < zr; i++) {
+            for (int j = 0; j < zc; j++) {
+                if (z[i][j] <= 0) {
+                    derivationActivationMatrix[i][j] = 0;
+                } else {
+                    derivationActivationMatrix[i][j] = 1;
+                }
+            }
+        }
+        return derivationActivationMatrix;
     }
 
     public double getActivationValue() {
