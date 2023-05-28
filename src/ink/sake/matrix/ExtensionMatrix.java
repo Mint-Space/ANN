@@ -2,10 +2,14 @@ package ink.sake.matrix;
 
 public class ExtensionMatrix extends Matrix{
 
-    //步长
+    /**
+     * 步长
+     */
     private int stride;
-    private  double[][] Matrix;
 
+    /**
+     * 构造函数
+     */
     public ExtensionMatrix(){
         super();
     }
@@ -123,7 +127,7 @@ public class ExtensionMatrix extends Matrix{
                     average += A[i][j];
             }
         }
-        average = average / (ar*ac);
+        average /= (ar*ac);
         return average;
     }
 
@@ -135,6 +139,7 @@ public class ExtensionMatrix extends Matrix{
      * @return          计算出的特征图
      */
     public double[][] featureMap(double[][] input, double[][] kernel,int stride) {
+        this.stride = stride;
         int ar = input.length;
         int ac = input[0].length;
         int br = kernel.length;
@@ -218,39 +223,4 @@ public class ExtensionMatrix extends Matrix{
         return result;
     }
 
-    public double[][] createZeroKernel(int size){
-        double[][] result = new double[size][size];
-        return result;
-    }
-
-    public double[][] createRandomKernel(int size){
-        double[][] result = new double[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                result[i][j] = Math.random() - 0.5;
-            }
-        }
-        return result;
-    }
-
-    public void printMatrix(){
-        int ar = Matrix.length;
-        int ac = Matrix[0].length;
-        for (int i = 0; i < ar; i++) {
-            for (int j = 0; j < ac; j++) {
-                System.out.print(Matrix[i][j]);
-            }
-            System.out.println();
-        }
-    }
-    public void printMatrix(double[][] Matrix){
-        int ar = Matrix.length;
-        int ac = Matrix[0].length;
-        for (int i = 0; i < ar; i++) {
-            for (int j = 0; j < ac; j++) {
-                System.out.print(Matrix[i][j]+" | ");
-            }
-            System.out.println();
-        }
-    }
 }
